@@ -720,116 +720,86 @@ textarea:focus-visible {
   background-color: #f0f3ed;
   border: 1px solid #e4e9e0;
 }
-/* KARTU PRESENSI */
+/* ===== UKURAN KARTU MENYESUAIKAN KARTU FISIK ===== */
+
 .student-card {
-  position: relative;
-  isolation: isolate;
-  flex: 0 0 auto;
+  width: min(360px, 100%);
+  aspect-ratio: 0.64;
+  height: auto;
+
+  padding: 40px 25px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  width: min(360px, 100%);
-  aspect-ratio: 0.61;
-  padding: 27px 25px 24px;
-
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid #e6eae6;
-  box-shadow: 0 13px 34px rgba(33, 57, 39, .09);
-  color: #30434b;
-  text-align: center;
+  justify-content: flex-start;
 }
 
+/* Garis tepi dalam */
 .student-card::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
   inset: 9px;
-  border: 1px solid #edf0ed;
-  pointer-events: none;
 }
 
-/* HEADER SEKOLAH */
+/* Header sekolah */
 .school-header {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
   width: 100%;
+  flex-shrink: 0;
+  gap: 9px;
   padding: 4px 0 11px;
-  border-bottom: 1px solid #edf0ee;
 }
 
 .school-logo {
   width: 30px;
   height: 30px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.school-identity {
-  min-width: 0;
 }
 
 .school-name {
-  color: #354951;
   font-size: 10.5px;
-  font-weight: 800;
   line-height: 1.35;
-  white-space: nowrap;
 }
 
 .school-subtitle {
   margin-top: 2px;
-  color: #278653;
   font-size: 7.3px;
-  font-weight: 800;
-  line-height: 1.4;
 }
 
-/* IDENTITAS MURID */
+/* Nama murid */
 .student-name {
   width: 100%;
-  max-width: 280px;
-  margin-top: 24px;
-  color: #2f4249;
+  max-width: 250px;
+  margin-top: 38px;
+
   font-size: 19px;
-  font-weight: 750;
   line-height: 1.3;
   overflow-wrap: anywhere;
-  text-transform: uppercase;
 }
 
+/* NISN dan NISM */
 .student-numbers {
-  margin-top: 9px;
-  color: #576970;
+  margin-top: 10px;
   font-size: 10.5px;
-  font-weight: 500;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
-/* QR: POSISI MENGIKUTI IDENTITAS, BUKAN DASAR KARTU */
+/* QR lebih besar, jaraknya konsisten */
 .qr-area {
+  width: 100%;
+  min-height: 0;
   flex: 0 0 auto;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 
-  margin-top: 36px;
+  margin-top: 55px;
   padding: 0;
-
-  min-height: 0;
 }
 
 .qr-image,
 .qr-placeholder {
   display: block;
-  width: 145px;
-  max-width: 67%;
+  width: 175px;
+  max-width: 68%;
   height: auto;
   aspect-ratio: 1;
   flex-shrink: 0;
@@ -850,38 +820,15 @@ textarea:focus-visible {
   font-size: 10px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 850px) {
-  .student-card {
-    padding-right: 19px;
-    padding-left: 19px;
-  }
-
-  .school-name {
-    font-size: 9.5px;
-  }
-
-  .school-subtitle {
-    font-size: 6.8px;
-  }
-}
-
+/* Layar HP */
 @media (max-width: 680px) {
   .student-card {
     width: min(360px, 100%);
-    padding: 36px 24px 29px;
-  }
-
-  .school-name {
-    font-size: 10.5px;
-  }
-
-  .school-subtitle {
-    font-size: 7.3px;
+    padding: 40px 24px 30px;
   }
 
   .qr-area {
-    margin-top: 32px;
+    margin-top: 48px;
   }
 }
 
@@ -889,15 +836,6 @@ textarea:focus-visible {
   .student-card {
     padding-right: 17px;
     padding-left: 17px;
-  }
-
-  .school-logo {
-    width: 29px;
-    height: 29px;
-  }
-
-  .school-header {
-    gap: 7px;
   }
 
   .school-name {
@@ -918,15 +856,14 @@ textarea:focus-visible {
 
   .qr-image,
   .qr-placeholder {
-    width: 140px;
+    width: 150px;
   }
 
   .qr-area {
-    margin-top: 28px;
+    margin-top: 42px;
   }
 }
 
-/* HIDDEN ELEMENT */
 [hidden] {
   display: none !important;
 }
