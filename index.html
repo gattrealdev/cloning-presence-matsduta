@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f8f6">
+<title>Cloning Matsduta Presence</title>
+
+<style>
+:root {
+  --bg: #f7f8f6;
+  --paper: #ffffff;
+  --ink: #24363b;
+  --muted: #7b8788;
+  --line: #e3e7e3;
+  --green: #278653;
+  --green-dark: #176d41;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.topbar {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 5%;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.brand {
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -0.3px;
+}
+
+.brand small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.credit {
+  color: var(--muted);
+  text-align: right;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.credit strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+main {
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  padding: 38px 0 50px;
+}
+
+.heading {
+  margin-bottom: 34px;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: clamp(24px, 4vw, 31px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1.1px;
+}
+
+.heading p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
+  gap: 54px;
+  align-items: start;
+}
+
+.editor h2,
+.preview-heading h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.section-note {
+  margin: 6px 0 25px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.field {
+  margin-bottom: 19px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #465653;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 43px;
+  padding: 11px 12px;
+  background: #fff;
+  border: 1px solid #dce2dd;
+  border-radius: 5px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 150ms ease;
+}
+
+.field textarea {
+  min-height: 82px;
+  resize: vertical;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--green);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #a2aaa5;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.help {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.btn {
+  display: inline-flex;
+  min-height: 41px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid #dce2dd;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.btn:hover {
+  border-color: #a9b9ad;
+  background: #f2f5f1;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.btn.primary {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  border-color: var(--green-dark);
+  background: var(--green-dark);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.status {
+  min-height: 18px;
+  margin-top: 12px;
+  color: var(--green-dark);
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#cameraArea {
+  display: none;
+  width: 100%;
+  margin-top: 14px;
+}
+
+#reader {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.preview {
+  min-width: 0;
+}
+
+.preview-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.preview-heading span {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.preview-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 25px 14px;
+  background: #edf0eb;
+  border: 1px solid #e4e8e2;
+  border-radius: 4px;
+}
+
+/* KARTU: proporsi dan susunan meniru foto referensi */
+.student-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 325px;
+  aspect-ratio: 0.69;
+  padding: 34px 24px 29px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e9edeb;
+  color: #273d46;
+  text-align: center;
+}
+
+/* Garis tipis seperti batas kertas pada foto */
+.student-card::before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  inset: 9px;
+  border: 1px solid #f0f2ef;
+  pointer-events: none;
+}
+
+.school-header {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 49px;
+  padding: 1px 0 13px;
+  border-bottom: 1px solid #eef0ee;
+}
+
+.school-logo {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.school-identity {
+  min-width: 0;
+  text-align: left;
+}
+
+.school-name {
+  color: #344951;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.08px;
+  white-space: nowrap;
+}
+
+.school-subtitle {
+  margin-top: 2px;
+  color: var(--green);
+  font-size: 7.8px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: 0.18px;
+  white-space: nowrap;
+}
+
+.student-name {
+  width: 100%;
+  max-width: 205px;
+  margin-top: 21px;
+  color: #2c4048;
+  font-size: 20px;
+  font-weight: 750;
+  line-height: 1.22;
+  letter-spacing: 0.15px;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.student-numbers {
+  margin-top: 10px;
+  color: #52646b;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: 0.02px;
+  overflow-wrap: anywhere;
+}
+
+.qr-area {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 33px;
+}
+
+.qr-image {
+  display: block;
+  width: 66%;
+  max-width: 184px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.qr-placeholder {
+  width: 66%;
+  max-width: 184px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px dashed #d0d8d2;
+  color: #89958f;
+  font-size: 10px;
+  line-height: 1.6;
+  padding: 12px;
+}
+
+/* Status pembaca kamera */
+#reader video {
+  border-radius: 4px;
+}
+
+#reader__dashboard_section_csr button {
+  margin: 5px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 4px;
+}
+
+@media (min-width: 761px) {
+  .preview {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    min-height: 65px;
+    padding: 0 5%;
+  }
+
+  main {
+    width: 90%;
+    padding-top: 30px;
+  }
+
+  .heading {
+    margin-bottom: 28px;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 38px;
+  }
+
+  .preview {
+    width: 100%;
+  }
+
+  .student-card {
+    width: min(100%, 325px);
+  }
+
+  .preview-stage {
+    padding: 20px 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .two-columns {
+    gap: 9px;
+  }
+
+  .field input {
+    padding: 10px;
+  }
+
+  .student-card {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .school-name {
+    font-size: 10px;
+  }
+
+  .school-subtitle {
+    font-size: 7.2px;
+  }
+
+  .student-name {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="brand">
+    Cloning Matsduta Presence
+    <small>Student card generator</small>
+  </div>
+
+  <div class="credit">
+    Dibuat oleh<br>
+    <strong>Muh. Fayza Khajagat</strong>
+  </div>
+</header>
+
+<main>
+  <section class="heading">
+    <h1>Generator kartu presensi.</h1>
+    <p>
+      Masukkan data atau pindai QR, periksa hasilnya, lalu hasilkan gambar PNG.
+    </p>
+  </section>
+
+  <div class="workspace">
+
+    <!-- FORM -->
+    <section class="editor">
+      <h2>Data kartu</h2>
+      <p class="section-note">
+        Perubahan akan langsung terlihat pada pratinjau.
+      </p>
+
+      <div class="field">
+        <label for="name">Nama lengkap</label>
+        <input
+          id="name"
+          type="text"
+          placeholder="Masukkan nama lengkap"
+          autocomplete="off"
+          maxlength="100"
+        >
+      </div>
+
+      <div class="two-columns">
+        <div class="field">
+          <label for="nisn">NISN</label>
+          <input
+            id="nisn"
+            type="text"
+            inputmode="numeric"
+            placeholder="Nomor NISN"
+            autocomplete="off"
+            maxlength="30"
+          >
+        </div>
+
+        <div class="field">
+          <label for="nism">NISM</label>
+          <input
+            id="nism"
+            type="text"
+            inputmode="numeric"
+            placeholder="Nomor NISM"
+            autocomplete="off"
+            maxlength="40"
+          >
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="qrdata">Isi QR code</label>
+        <textarea
+          id="qrdata"
+          placeholder="Masukkan teks atau URL yang akan dimasukkan ke QR"
+          spellcheck="false"
+        ></textarea>
+        <span class="help">
+          QR gambar akan dibuat dari isi kolom ini. Periksa datanya sebelum mengekspor.
+        </span>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="cameraBtn" type="button">
+          Pindai dengan kamera
+        </button>
+
+        <button class="btn" id="uploadBtn" type="button">
+          Unggah gambar QR
+        </button>
+
+        <input
+          id="qrFile"
+          type="file"
+          accept="image/*"
+          capture="environment"
+          hidden
+        >
+      </div>
+
+      <div id="cameraArea">
+        <div id="reader"></div>
+        <button class="btn" id="stopCameraBtn" type="button">
+          Tutup kamera
+        </button>
+      </div>
+
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+
+      <div class="actions">
+        <button class="btn" id="clearBtn" type="button">
+          Reset
+        </button>
+
+        <button class="btn primary" id="downloadBtn" type="button">
+          Hasilkan gambar PNG
+        </button>
+      </div>
+
+      <p class="help">
+        Logo dan library eksternal memerlukan koneksi internet. Kamera memerlukan
+        izin browser serta HTTPS atau localhost.
+      </p>
+    </section>
+
+    <!-- PREVIEW -->
+    <section class="preview">
+      <div class="preview-heading">
+        <h2>Pratinjau</h2>
+        <span>LIVE PREVIEW</span>
+      </div>
+
+      <div class="preview-stage">
+        <div class="student-card" id="studentCard">
+
+          <div class="school-header">
+            <img
+              class="school-logo"
+              id="schoolLogo"
+              crossorigin="anonymous"
+              src="https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png"
+              alt="Logo sekolah"
+            >
+
+            <div class="school-identity">
+              <div class="school-name">MTS NEGERI 2 TEGAL</div>
+              <div class="school-subtitle">KARTU PRESENSI MURID</div>
+            </div>
+          </div>
+
+          <div class="student-name" id="previewName">NAMA LENGKAP</div>
+
+          <div class="student-numbers">
+            <div>NISN: <span id="previewNisn"></span></div>
+            <div>NISM: <span id="previewNism"></span></div>
+          </div>
+
+          <div class="qr-area">
+            <div class="qr-placeholder" id="qrPlaceholder">
+              QR CODE
+            </div>
+
+            <img
+              class="qr-image"
+              id="previewQr"
+              alt="QR code hasil"
+              hidden
+            >
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Library untuk membuat QR, membaca QR, dan mengekspor gambar -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const logoURL =
+  "https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png";
+
+let scanner = null;
+let scannerRunning = false;
+let qrTimer = null;
+let qrGenerationId = 0;
+
+const inputs = ["name", "nisn", "nism", "qrdata"];
+
+/* --------------------------------------------------
+   STATUS
+-------------------------------------------------- */
+
+function setStatus(message) {
+  $("status").textContent = message;
+}
+
+/* --------------------------------------------------
+   LIVE PREVIEW
+-------------------------------------------------- */
+
+function updatePreview() {
+  const name = $("name").value.trim();
+
+  $("previewName").textContent =
+    name ? name.toLocaleUpperCase("id-ID") : "NAMA LENGKAP";
+
+  $("previewNisn").textContent = $("nisn").value.trim();
+  $("previewNism").textContent = $("nism").value.trim();
+
+  clearTimeout(qrTimer);
+
+  qrTimer = setTimeout(() => {
+    generateQR($("qrdata").value);
+  }, 180);
+}
+
+inputs.forEach(id => {
+  $(id).addEventListener("input", updatePreview);
+});
+
+/* --------------------------------------------------
+   GENERATE QR CODE
+-------------------------------------------------- */
+
+function generateQR(value) {
+  const requestId = ++qrGenerationId;
+  const content = value.trim();
+
+  $("previewQr").hidden = true;
+  $("qrPlaceholder").hidden = false;
+  $("previewQr").removeAttribute("src");
+
+  if (!content) return;
+
+  if (!window.QRCode) {
+    setStatus("QR library belum termuat. Periksa koneksi internet.");
+    return;
+  }
+
+  const temp = document.createElement("div");
+
+  try {
+    new QRCode(temp, {
+      text: content,
+      width: 500,
+      height: 500,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    const canvas = temp.querySelector("canvas");
+    const image = temp.querySelector("img");
+
+    let dataURL = "";
+
+    if (canvas) {
+      dataURL = canvas.toDataURL("image/png");
+    } else if (image) {
+      dataURL = image.src;
+    }
+
+    if (!dataURL || requestId !== qrGenerationId) return;
+
+    const previewImage = $("previewQr");
+
+    previewImage.onload = () => {
+      if (requestId !== qrGenerationId) return;
+
+      previewImage.hidden = false;
+      $("qrPlaceholder").hidden = true;
+    };
+
+    previewImage.onerror = () => {
+      setStatus("QR gagal ditampilkan. Periksa isi QR code.");
+    };
+
+    previewImage.src = dataURL;
+
+  } catch (error) {
+    setStatus("QR tidak dapat dibuat: " + error.message);
+  }
+}
+
+/* --------------------------------------------------
+   EXTRACT DATA DARI QR
+   Mendukung JSON, URL parameter, dan teks berlabel.
+-------------------------------------------------- */
+
+function extractStudentData(raw) {
+  const result = {
+    name: "",
+    nisn: "",
+    nism: ""
+  };
+
+  // Format JSON: {"nama":"...","nisn":"...","nism":"..."}
+  try {
+    const obj = JSON.parse(raw);
+
+    if (typeof obj === "object" && obj !== null) {
+      result.name =
+        obj.name || obj.nama || obj.student_name || "";
+
+      result.nisn = obj.nisn || obj.NISN || "";
+      result.nism = obj.nism || obj.NISM || "";
+    }
+  } catch (_) {}
+
+  // Format URL dengan parameter nama, nisn, nism.
+  try {
+    const url = new URL(raw);
+
+    const getParam = names => {
+      for (const name of names) {
+        const value = url.searchParams.get(name);
+        if (value) return value;
+      }
+      return "";
+    };
+
+    result.name ||= getParam(["nama", "name", "student_name"]);
+    result.nisn ||= getParam(["nisn", "NISN"]);
+    result.nism ||= getParam(["nism", "NISM"]);
+  } catch (_) {}
+
+  // Format teks seperti:
+  // Nama: ...
+  // NISN: ...
+  // NISM: ...
+  const findLine = labels => {
+    const pattern = new RegExp(
+      "(?:^|[\\n;,|])\\s*(?:" +
+      labels.join("|") +
+      ")\\s*[:=]\\s*([^\\n;,|]+)",
+      "i"
+    );
+
+    const match = raw.match(pattern);
+    return match ? match[1].trim() : "";
+  };
+
+  result.name ||= findLine(["nama", "name", "student_name"]);
+  result.nisn ||= findLine(["nisn"]);
+  result.nism ||= findLine(["nism"]);
+
+  return result;
+}
+
+function applyScannedData(raw) {
+  $("qrdata").value = raw;
+
+  const data = extractStudentData(raw);
+
+  if (data.name) $("name").value = data.name;
+  if (data.nisn) $("nisn").value = data.nisn;
+  if (data.nism) $("nism").value = data.nism;
+
+  updatePreview();
+
+  const found = [data.name, data.nisn, data.nism].filter(Boolean).length;
+
+  if (found > 0) {
+    setStatus(
+      "QR terbaca. Data yang ditemukan otomatis diisi. Periksa hasilnya."
+    );
+  } else {
+    setStatus(
+      "QR terbaca. Isi QR sudah dimasukkan, tetapi nama/NISN/NISM tidak ditemukan dalam format yang dikenali."
+    );
+  }
+}
+
+/* --------------------------------------------------
+   SCAN QR DARI FILE GAMBAR
+-------------------------------------------------- */
+
+$("uploadBtn").addEventListener("click", () => {
+  $("qrFile").click();
+});
+
+$("qrFile").addEventListener("change", async event => {
+  const file = event.target.files && event.target.files[0];
+
+  if (!file) return;
+
+  if (!window.Html5Qrcode) {
+    setStatus("Library pemindai belum tersedia. Periksa koneksi internet.");
+    event.target.value = "";
+    return;
+  }
+
+  setStatus("Sedang membaca QR dari gambar…");
+
+  try {
+    const reader = new Html5Qrcode("reader");
+    const decoded = await reader.scanFile(file, true);
+
+    applyScannedData(decoded);
+
+  } catch (error) {
+    setStatus(
+      "QR tidak terbaca. Coba gambar yang lebih jelas dan pastikan QR tidak terpotong."
+    );
+  } finally {
+    event.target.value = "";
+  }
+});
+
+/* --------------------------------------------------
+   SCAN QR DENGAN KAMERA
+-------------------------------------------------- */
+
+$("cameraBtn").addEventListener("click", async () => {
+  if (!window.Html5Qrcode) {
+    setStatus("Library kamera belum termuat. Periksa koneksi internet.");
+    return;
+  }
+
+  if (scannerRunning) return;
+
+  $("cameraBtn").disabled = true;
+  $("cameraArea").style.display = "block";
+  setStatus("Meminta izin kamera…");
+
+  try {
+    scanner = new Html5Qrcode("reader");
+
+    await scanner.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: { width: 220, height: 220 },
+        aspectRatio: 1
+      },
+      decoded => {
+        applyScannedData(decoded);
+        stopCamera();
+      },
+      () => {
+        // Abaikan frame yang belum menemukan QR.
+      }
+    );
+
+    scannerRunning = true;
+    setStatus("Arahkan kamera ke QR code.");
+
+  } catch (error) {
+    scannerRunning = false;
+
+    $("cameraBtn").disabled = false;
+    $("cameraArea").style.display = "none";
+
+    setStatus(
+      "Kamera tidak dapat dibuka. Periksa izin kamera dan pastikan situs menggunakan HTTPS."
+    );
+  }
+});
+
+async function stopCamera() {
+  if (scanner && scannerRunning) {
+    try {
+      await scanner.stop();
+      await scanner.clear();
+    } catch (_) {}
+  }
+
+  scannerRunning = false;
+  scanner = null;
+
+  $("cameraBtn").disabled = false;
+  $("cameraArea").style.display = "none";
+}
+
+$("stopCameraBtn").addEventListener("click", stopCamera);
+
+/* --------------------------------------------------
+   RESET FORM
+-------------------------------------------------- */
+
+$("clearBtn").addEventListener("click", async () => {
+  await stopCamera();
+
+  inputs.forEach(id => {
+    $(id).value = "";
+  });
+
+  updatePreview();
+  setStatus("Data telah dikosongkan.");
+});
+
+/* --------------------------------------------------
+   EXPORT PNG
+-------------------------------------------------- */
+
+$("downloadBtn").addEventListener("click", async () => {
+  const name = $("name").value.trim();
+  const qrData = $("qrdata").value.trim();
+
+  if (!name) {
+    $("name").focus();
+    setStatus("Masukkan nama terlebih dahulu.");
+    return;
+  }
+
+  if (!qrData) {
+    $("qrdata").focus();
+    setStatus("Masukkan isi QR atau pindai QR terlebih dahulu.");
+    return;
+  }
+
+  if (!window.html2canvas) {
+    setStatus("Library ekspor belum termuat. Periksa koneksi internet.");
+    return;
+  }
+
+  const button = $("downloadBtn");
+  const originalText = button.textContent;
+
+  button.disabled = true;
+  button.textContent = "Membuat gambar…";
+
+  try {
+    // Tunggu QR terbaru tampil di pratinjau.
+    await new Promise((resolve, reject) => {
+      const image = $("previewQr");
+
+      if (!image.hidden && image.complete && image.naturalWidth > 0) {
+        resolve();
+        return;
+      }
+
+      const timeout = setTimeout(() => {
+        reject(new Error("QR belum selesai dibuat."));
+      }, 8000);
+
+      image.onload = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+
+      image.onerror = () => {
+        clearTimeout(timeout);
+        reject(new Error("QR gagal dimuat."));
+      };
+    });
+
+    // Beri kesempatan browser menerapkan layout terbaru.
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
+    const canvas = await html2canvas($("studentCard"), {
+      scale: 3,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+      allowTaint: false,
+      logging: false
+    });
+
+    const blob = await new Promise(resolve => {
+      canvas.toBlob(resolve, "image/png");
+    });
+
+    if (!blob) {
+      throw new Error("PNG tidak dapat dibuat.");
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "kartu-presensi-matsduta.png";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+    setStatus("Gambar PNG berhasil dibuat.");
+
+  } catch (error) {
+    setStatus(
+      error.message +
+      " Jika logo bermasalah, periksa koneksi dan izin gambar dari server."
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = originalText;
+  }
+});
+
+/* --------------------------------------------------
+   INIT
+-------------------------------------------------- */
+
+$("schoolLogo").addEventListener("error", () => {
+  setStatus("Logo gagal dimuat. Periksa koneksi internet atau URL logo.");
+});
+
+updatePreview();
+</script>
+
+</body>
+</html>
