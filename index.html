@@ -1470,44 +1470,28 @@ textarea:focus-visible {
               Buka kamera
             </button>
 
-            <button class="button small" id="uploadBtn" type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 16V4m-4 4 4-4 4 4"/>
-                <path d="M5 14v5h14v-5"/>
-              </svg>
-              Unggah gambar
-            </button>
 
-            <input
-              id="qrFile"
-              type="file"
-              accept="image/*"
-              capture="environment"
-              hidden
-            >
+<input
+  id="qrFile"
+  type="file"
+  accept=".png,image/png"
+  hidden
+>
+
+<button class="button small" id="uploadBtn" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 16V4m-4 4 4-4 4 4"/>
+    <path d="M5 14v5h14v-5"/>
+  </svg>
+  Select file PNG
+</button>
+
           </div>
 
           <span class="field-help">
             Kamera memerlukan izin browser. Gunakan HTTPS atau localhost.
           </span>
-        </div>
-
-        <div class="field">
-          <label for="logoFile">Logo sekolah (opsional)</label>
-          <input id="logoFile" type="file" accept="image/*">
-          <span class="field-help">
-            Upload logo lokal jika logo dari server gagal ikut tersimpan di PNG.
-          </span>
-        </div>
-
-        <div class="camera-area" id="cameraArea">
-          <div id="reader"></div>
-          <div class="tools">
-            <button class="button small" id="stopCameraBtn" type="button">
-              Tutup kamera
-            </button>
-          </div>
         </div>
 
         <div class="status" id="status" role="status" aria-live="polite"></div>
@@ -1873,52 +1857,88 @@ function applyScannedQR(decodedText) {
   }
 }
 
-/* ------------------------------------
-   SCAN QR DARI GAMBAR
------------------------------------- */
-
 $("uploadBtn").addEventListener("click", () => {
   $("qrFile").click();
 });
 
 $("qrFile").addEventListener("change", async event => {
-  const file = event.target.files && event.target.files[0];
+  const file = event.target.files?.[0];
   if (!file) return;
 
-  if (!window.Html5Qrcode) {
-    setStatus("Library pemindai belum termuat. Periksa internet.", "error");
-    event.target.value = "";
-    return;
-  }
-
-  await stopCamera(false);
-
-  $("cameraArea").classList.add("active");
-  setStatus("Membaca QR dari gambar…");
-
-  let fileReader = null;
-
   try {
-    fileReader = new Html5Qrcode("reader");
-
-    const decoded = await fileReader.scanFile(file, true);
-    applyScannedQR(decoded);
-
-  } catch (error) {
-    setStatus(
-      "QR belum terbaca. Coba foto yang lebih tajam dan pastikan QR terlihat utuh.",
-      "error"
-    );
-  } finally {
-    if (fileReader) {
-      try { await fileReader.clear(); } catch (_) {}
+    // Validasi ekstensi dan MIME type.
+    if (
+      !file.name.toLowerCase().endsWith(".png") ||
+      file.type !== "image/png"
+    ) {
+      throw new Error("File wajib berformat PNG.");
     }
 
-    $("reader").innerHTML = "";
-    $("cameraArea").classList.remove("active");
+    // Batasi ukuran file menjadi 10 MB.
+    if (file.size === 0 || file.size > 10 * 1024 * 1024) {
+      throw new Error("File kosong atau ukurannya melebihi 10 MB.");
+    }
+
+    setStatus("Memvalidasi file PNG...");
+
+    // Validasi signature PNG, bukan hanya nama file.
+    const signature = new Uint8Array(
+      await file.slice(0, 8).arrayBuffer()
+    );
+
+    const expected = [137, 80, 78, 71, 13, 10, 26, 10];
+
+    if (!expected.every((byte, i) => signature[i] === byte)) {
+      throw new Error("Isi file bukan PNG yang valid.");
+    }
+
+    // Pastikan file bisa didekode sebagai gambar.
+    const bitmap = await createImageBitmap(file);
+
+    if (!bitmap.width || !bitmap.height) {
+      bitmap.close();
+      throw new Error("Gambar PNG tidak valid.");
+    }
+
+    bitmap.close();
+
+    if (!window.Html5Qrcode) {
+      throw new Error("Library QR belum tersedia. Periksa koneksi internet.");
+    }
+
+    await stopCamera();
+
+    setStatus("Memeriksa QR code dalam gambar...");
+
+    const reader = new Html5Qrcode("reader");
+    $("cameraArea").classList.add("active");
+
+    try {
+      // Harus berhasil membaca QR; PNG biasa ditolak.
+      const decoded = await reader.scanFile(file, true);
+
+      if (!decoded || !decoded.trim()) {
+        throw new Error("QR code kosong atau tidak valid.");
+      }
+
+      applyScannedQR(decoded);
+    } finally {
+      try {
+        await reader.clear();
+      } catch (_) {}
+
+      $("reader").innerHTML = "";
+      $("cameraArea").classList.remove("active");
+    }
+
+  } catch (error) {
+    setStatus(error.message || "PNG atau QR code tidak valid.", "error");
+  } finally {
+    // Memungkinkan memilih file yang sama lagi.
     event.target.value = "";
   }
 });
+
 
 /* ------------------------------------
    CAMERA SCAN
