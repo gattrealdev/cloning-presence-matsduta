@@ -1,24 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f7f8f6">
+<meta name="theme-color" content="#f7f8f5">
 <title>Cloning Matsduta Presence</title>
 
 <style>
 :root {
-  --bg: #f7f8f6;
-  --paper: #ffffff;
-  --ink: #24363b;
-  --muted: #7b8788;
-  --line: #e3e7e3;
+  --bg: #f7f8f5;
+  --surface: #fff;
+  --ink: #263a35;
+  --muted: #78817b;
+  --line: #e3e7df;
   --green: #278653;
-  --green-dark: #176d41;
+  --green-dark: #176b40;
+  --green-soft: #e7f1e9;
+  --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 35px;
 }
 
 body {
@@ -34,92 +42,490 @@ button, input, textarea {
   font: inherit;
 }
 
-button {
+button, a, input {
   -webkit-tap-highlight-color: transparent;
 }
 
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #cce7d1;
+  color: #163b28;
+}
+
+/* --------------------------------
+   HEADER
+-------------------------------- */
+
 .topbar {
-  min-height: 72px;
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 72px;
+  padding: 0 7%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 0 5%;
+  align-items: center;
   border-bottom: 1px solid var(--line);
-  background: var(--bg);
+  background: rgba(247,248,245,.94);
 }
 
 .brand {
-  font-size: 14px;
-  font-weight: 750;
-  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
 }
 
-.brand small {
-  display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0;
+.brand-mark {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #cbdccf;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  transition:
+    background .3s,
+    transform .5s var(--ease);
 }
 
-.credit {
-  color: var(--muted);
-  text-align: right;
-  font-size: 11px;
-  line-height: 1.6;
+.brand:hover .brand-mark {
+  background: var(--green-soft);
+  transform: rotate(-5deg);
 }
 
-.credit strong {
-  color: var(--ink);
-  font-weight: 650;
-}
-
-main {
-  width: min(1100px, 90%);
-  margin: 0 auto;
-  padding: 38px 0 50px;
-}
-
-.heading {
-  margin-bottom: 34px;
-}
-
-.heading h1 {
-  margin: 0;
-  font-size: clamp(24px, 4vw, 31px);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -1.1px;
-}
-
-.heading p {
-  margin: 9px 0 0;
-  color: var(--muted);
+.brand-name {
   font-size: 13px;
-  line-height: 1.65;
+  font-weight: 750;
+  letter-spacing: -.3px;
+}
+
+.brand-caption {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.creator {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.creator strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.nav-link span {
+  transition: transform .3s var(--ease);
+}
+
+.nav-link:hover span {
+  transform: translateX(4px);
+}
+
+/* --------------------------------
+   LANDING PAGE
+-------------------------------- */
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 510px;
+  margin: 0 auto;
+  padding: 85px 9% 78px;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: 60px;
+  overflow: hidden;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  animation: rise .85s var(--ease) both;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: var(--green);
+}
+
+.hero h1 {
+  max-width: 580px;
+  margin: 23px 0 18px;
+  font-size: clamp(39px, 5.5vw, 66px);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -3.4px;
+}
+
+.hero h1 em {
+  color: var(--green);
+  font-style: normal;
+}
+
+.hero-description {
+  max-width: 405px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  margin-top: 31px;
+}
+
+.button {
+  position: relative;
+  display: inline-flex;
+  min-height: 45px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 17px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 750;
+  transition:
+    transform .25s var(--ease),
+    border-color .2s,
+    background .2s,
+    color .2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  border-color: #b4c9b9;
+}
+
+.button.primary {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+}
+
+.button.primary:hover {
+  border-color: var(--green-dark);
+  background: var(--green-dark);
+}
+
+.button:active {
+  transform: translateY(0) scale(.985);
+}
+
+.button:disabled {
+  opacity: .6;
+  cursor: wait;
+  transform: none;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform .25s var(--ease);
+}
+
+.button:hover .arrow {
+  transform: translateX(3px);
+}
+
+.hero-footnote {
+  margin-top: 24px;
+  color: #8a938c;
+  font-size: 10px;
+  letter-spacing: .2px;
+}
+
+/* Hero visual: ilustrasi minimal, bukan tumpukan dashboard */
+
+.hero-art {
+  position: relative;
+  min-height: 330px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: rise 1s .1s var(--ease) both;
+}
+
+.art-circle {
+  position: absolute;
+  width: 300px;
+  aspect-ratio: 1;
+  border: 1px solid #e0e9df;
+  border-radius: 50%;
+  animation: breathe 7s ease-in-out infinite;
+}
+
+.art-circle::before,
+.art-circle::after {
+  content: "";
+  position: absolute;
+  border: 1px solid #e3e9e1;
+  border-radius: 50%;
+}
+
+.art-circle::before {
+  inset: 20px;
+}
+
+.art-circle::after {
+  inset: 43px;
+}
+
+.art-line {
+  position: absolute;
+  width: 390px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #dbe7da 20%,
+    #dbe7da 80%,
+    transparent
+  );
+  transform: rotate(-32deg);
+}
+
+.art-line.second {
+  transform: rotate(32deg);
+}
+
+.specimen {
+  position: relative;
+  z-index: 1;
+  width: 230px;
+  min-height: 280px;
+  padding: 25px 21px;
+  border: 1px solid #e0e5dd;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 18px 50px rgba(34,57,40,.07);
+  animation: float 6s ease-in-out infinite;
+}
+
+.specimen-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.specimen-logo {
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+}
+
+.specimen-school {
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.specimen-subtitle {
+  color: var(--green);
+  font-size: 6px;
+  font-weight: 800;
+  letter-spacing: .15px;
+}
+
+.specimen-name {
+  margin-top: 21px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+.specimen-data {
+  margin-top: 8px;
+  color: #66766d;
+  font-size: 8px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.specimen-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.fake-qr {
+  display: grid;
+  grid-template-columns: repeat(9, 5px);
+  grid-template-rows: repeat(9, 5px);
+  gap: 1px;
+  padding: 4px;
+  border: 1px solid #eff1ed;
+  background: white;
+}
+
+.fake-qr i {
+  background: transparent;
+}
+
+.fake-qr i.on {
+  background: #273a32;
+}
+
+.art-label {
+  position: absolute;
+  right: 1%;
+  bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7c8a7d;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.art-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #54a86b;
+  box-shadow: 0 0 0 4px #e4f0e4;
+}
+
+/* --------------------------------
+   SECTION TRANSITION
+-------------------------------- */
+
+.section-divider {
+  width: 82%;
+  height: 1px;
+  margin: 0 auto;
+  background: var(--line);
+}
+
+.builder-section {
+  padding: 72px 7% 88px;
+}
+
+.section-intro {
+  max-width: 1100px;
+  margin: 0 auto 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.section-intro h2 {
+  margin: 11px 0 0;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 750;
+  letter-spacing: -1.5px;
+}
+
+.section-intro p {
+  max-width: 310px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
 }
 
 .workspace {
+  max-width: 1100px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
-  gap: 54px;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 57px;
   align-items: start;
 }
 
-.editor h2,
-.preview-heading h2 {
+.editor,
+.preview {
+  min-width: 0;
+}
+
+.editor-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--line);
+}
+
+.editor-title h3 {
   margin: 0;
   font-size: 14px;
   font-weight: 750;
 }
 
-.section-note {
-  margin: 6px 0 25px;
+.step-label {
+  color: #8a938c;
+  font-size: 10px;
+  letter-spacing: .8px;
+}
+
+.editor-desc {
+  margin: 14px 0 23px;
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 .field {
@@ -129,203 +535,248 @@ main {
 .field label {
   display: block;
   margin-bottom: 8px;
-  color: #465653;
+  color: #45554b;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 750;
 }
 
 .field input,
 .field textarea {
+  display: block;
   width: 100%;
   min-height: 43px;
   padding: 11px 12px;
+  border: 1px solid #dfe5dc;
+  border-radius: 4px;
   background: #fff;
-  border: 1px solid #dce2dd;
-  border-radius: 5px;
   color: var(--ink);
   outline: none;
-  transition: border-color 150ms ease;
-}
-
-.field textarea {
-  min-height: 82px;
-  resize: vertical;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
+  transition:
+    border-color .2s,
+    box-shadow .2s,
+    background .2s;
 }
 
 .field input:focus,
 .field textarea:focus {
-  border-color: var(--green);
+  border-color: #67a87b;
+  box-shadow: 0 0 0 3px rgba(39,134,83,.08);
 }
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #a2aaa5;
+  color: #a6ada5;
 }
 
-.two-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 13px;
-}
-
-.help {
-  display: block;
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px;
-  margin-top: 22px;
-}
-
-.btn {
-  display: inline-flex;
-  min-height: 41px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 0 14px;
-  border: 1px solid #dce2dd;
-  border-radius: 5px;
-  background: #fff;
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 650;
-  cursor: pointer;
-  transition:
-    background 150ms ease,
-    border-color 150ms ease;
-}
-
-.btn:hover {
-  border-color: #a9b9ad;
-  background: #f2f5f1;
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--green);
-  outline-offset: 3px;
-}
-
-.btn.primary {
-  border-color: var(--green);
-  background: var(--green);
-  color: #fff;
-}
-
-.btn.primary:hover {
-  border-color: var(--green-dark);
-  background: var(--green-dark);
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.status {
-  min-height: 18px;
-  margin-top: 12px;
-  color: var(--green-dark);
-  font-size: 11px;
+.field textarea {
+  min-height: 81px;
+  resize: vertical;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
-#cameraArea {
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.field-help {
+  display: block;
+  margin-top: 7px;
+  color: #828c83;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.button.small {
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 11px;
+}
+
+.button svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.camera-area {
   display: none;
-  width: 100%;
-  margin-top: 14px;
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  animation: rise .35s var(--ease) both;
+}
+
+.camera-area.active {
+  display: block;
 }
 
 #reader {
   width: 100%;
   max-width: 420px;
+  margin: 0 auto;
   overflow: hidden;
 }
 
-.preview {
-  min-width: 0;
+#reader video {
+  border-radius: 3px;
 }
 
-.preview-heading {
+#reader button {
+  margin: 4px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.status {
+  min-height: 19px;
+  margin-top: 12px;
+  color: var(--green-dark);
+  font-size: 11px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.status.error {
+  color: #a13d32;
+}
+
+.editor-actions {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.privacy-note {
+  margin-top: 18px;
+  color: #8a938b;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+/* --------------------------------
+   KARTU FINAL
+   Ukuran dipatok agar hasil PNG konsisten
+-------------------------------- */
+
+.preview-top {
+  display: flex;
   justify-content: space-between;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 17px;
 }
 
-.preview-heading span {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.5px;
+.preview-top h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.live-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #78867a;
+  font-size: 9px;
+  letter-spacing: .7px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4eaa6b;
+  box-shadow: 0 0 0 3px #e0f0e3;
+  animation: dotPulse 2.2s ease-in-out infinite;
 }
 
 .preview-stage {
+  min-height: 420px;
+  padding: 28px 16px;
   display: flex;
-  justify-content: center;
   align-items: flex-start;
-  padding: 25px 14px;
-  background: #edf0eb;
-  border: 1px solid #e4e8e2;
-  border-radius: 4px;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    linear-gradient(#e9eee7 1px, transparent 1px),
+    linear-gradient(90deg, #e9eee7 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-color: #f0f3ed;
+  border: 1px solid #e4e9e0;
 }
 
-/* KARTU: proporsi dan susunan meniru foto referensi */
+/*
+  Kartu berukuran proporsional potret.
+  Lebar responsif, tinggi mengikuti aspect-ratio.
+  Ekspor PNG menggunakan elemen ini saja.
+*/
+
 .student-card {
   position: relative;
   isolation: isolate;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 325px;
-  aspect-ratio: 0.69;
-  padding: 34px 24px 29px;
+  width: min(360px, 100%);
+  aspect-ratio: 0.61;
+  padding: 36px 25px 29px;
   overflow: hidden;
   background: #fff;
-  border: 1px solid #e9edeb;
-  color: #273d46;
+  border: 1px solid #e6eae6;
+  box-shadow: 0 13px 34px rgba(33,57,39,.09);
+  color: #30434b;
   text-align: center;
+  transform: translateZ(0);
+  transition: box-shadow .35s var(--ease);
 }
 
-/* Garis tipis seperti batas kertas pada foto */
 .student-card::before {
   position: absolute;
   z-index: -1;
   content: "";
   inset: 9px;
-  border: 1px solid #f0f2ef;
+  border: 1px solid #edf0ed;
   pointer-events: none;
+}
+
+.preview-stage:hover .student-card {
+  box-shadow: 0 17px 39px rgba(33,57,39,.12);
 }
 
 .school-header {
   display: flex;
   flex-shrink: 0;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 9px;
   width: 100%;
-  min-height: 49px;
-  padding: 1px 0 13px;
-  border-bottom: 1px solid #eef0ee;
+  padding: 5px 0 13px;
+  border-bottom: 1px solid #edf0ee;
 }
 
 .school-logo {
   display: block;
-  width: 35px;
-  height: 35px;
-  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .school-identity {
@@ -334,135 +785,321 @@ main {
 }
 
 .school-name {
-  color: #344951;
-  font-size: 11px;
+  color: #354951;
+  font-size: 10.5px;
   font-weight: 800;
   line-height: 1.4;
-  letter-spacing: 0.08px;
+  letter-spacing: .02px;
   white-space: nowrap;
 }
 
 .school-subtitle {
   margin-top: 2px;
   color: var(--green);
-  font-size: 7.8px;
+  font-size: 7.3px;
   font-weight: 800;
-  line-height: 1.35;
-  letter-spacing: 0.18px;
+  line-height: 1.4;
+  letter-spacing: .15px;
   white-space: nowrap;
 }
 
 .student-name {
   width: 100%;
-  max-width: 205px;
-  margin-top: 21px;
-  color: #2c4048;
-  font-size: 20px;
+  max-width: 230px;
+  margin-top: 23px;
+  color: #2f4249;
+  font-size: 19px;
   font-weight: 750;
-  line-height: 1.22;
-  letter-spacing: 0.15px;
+  line-height: 1.23;
+  letter-spacing: .05px;
   text-transform: uppercase;
   overflow-wrap: anywhere;
   white-space: pre-line;
 }
 
 .student-numbers {
-  margin-top: 10px;
-  color: #52646b;
-  font-size: 11.5px;
+  margin-top: 9px;
+  color: #576970;
+  font-size: 10.5px;
   font-weight: 500;
-  line-height: 1.65;
-  letter-spacing: 0.02px;
+  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
 .qr-area {
+  flex: 0 0 auto;
   display: flex;
-  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 100%;
   margin-top: auto;
-  padding-top: 33px;
+  padding-top: 24px;
+  min-height: 170px;
+}
+
+.qr-image,
+.qr-placeholder {
+  display: block;
+  width: 152px;
+  max-width: 67%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  flex-shrink: 0;
 }
 
 .qr-image {
-  display: block;
-  width: 66%;
-  max-width: 184px;
-  height: auto;
-  aspect-ratio: 1;
   object-fit: contain;
   image-rendering: pixelated;
 }
 
 .qr-placeholder {
-  width: 66%;
-  max-width: 184px;
-  aspect-ratio: 1;
   display: grid;
   place-items: center;
-  border: 1px dashed #d0d8d2;
-  color: #89958f;
+  padding: 10px;
+  border: 1px dashed #d0d9d0;
+  color: #87948a;
+  background: #fff;
   font-size: 10px;
-  line-height: 1.6;
-  padding: 12px;
+  line-height: 1.7;
 }
 
-/* Status pembaca kamera */
-#reader video {
-  border-radius: 4px;
+/* Fix penting: display komponen hidden tidak boleh ditimpa CSS. */
+[hidden] {
+  display: none !important;
 }
 
-#reader__dashboard_section_csr button {
-  margin: 5px;
-  padding: 7px 10px;
-  border: 1px solid var(--line);
-  background: white;
-  border-radius: 4px;
+.preview-note {
+  margin-top: 13px;
+  color: #838d83;
+  font-size: 10px;
+  line-height: 1.8;
 }
 
-@media (min-width: 761px) {
-  .preview {
-    position: sticky;
-    top: 24px;
+.preview-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+/* --------------------------------
+   FOOTER
+-------------------------------- */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 23px 7%;
+  border-top: 1px solid var(--line);
+  color: #818b82;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.footer strong {
+  color: #506054;
+  font-weight: 700;
+}
+
+/* --------------------------------
+   MOTION
+-------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(19px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 760px) {
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(.5deg);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: .8;
+  }
+  50% {
+    transform: scale(1.045);
+    opacity: 1;
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 3px #e0f0e3; }
+  50% { box-shadow: 0 0 0 5px #e0f0e3; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(19px);
+  transition:
+    opacity .7s var(--ease),
+    transform .7s var(--ease);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 850px) {
   .topbar {
-    min-height: 65px;
     padding: 0 5%;
   }
 
-  main {
-    width: 90%;
-    padding-top: 30px;
+  .hero {
+    min-height: 460px;
+    padding: 65px 6%;
+    gap: 25px;
   }
 
-  .heading {
+  .hero h1 {
+    letter-spacing: -2.5px;
+  }
+
+  .hero-art {
+    transform: scale(.9);
+  }
+
+  .workspace {
+    gap: 32px;
+  }
+
+  .student-card {
+    padding-right: 19px;
+    padding-left: 19px;
+  }
+
+  .school-name {
+    font-size: 9.5px;
+  }
+
+  .school-subtitle {
+    font-size: 6.8px;
+  }
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    height: 65px;
+  }
+
+  .creator {
+    display: none;
+  }
+
+  .hero {
+    min-height: initial;
+    padding: 62px 7% 36px;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero h1 {
+    max-width: 480px;
+    font-size: clamp(40px, 10vw, 55px);
+    letter-spacing: -2.5px;
+  }
+
+  .hero-description {
+    max-width: 420px;
+    font-size: 13px;
+  }
+
+  .hero-art {
+    min-height: 300px;
+    margin-top: 8px;
+    transform: none;
+  }
+
+  .art-circle {
+    width: 255px;
+  }
+
+  .art-line {
+    width: 300px;
+  }
+
+  .specimen {
+    width: 218px;
+  }
+
+  .builder-section {
+    padding: 54px 6% 65px;
+  }
+
+  .section-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 28px;
+  }
+
+  .section-intro p {
+    max-width: 390px;
   }
 
   .workspace {
     grid-template-columns: minmax(0, 1fr);
-    gap: 38px;
+    gap: 41px;
   }
 
   .preview {
     width: 100%;
   }
 
-  .student-card {
-    width: min(100%, 325px);
+  .preview-stage {
+    padding: 22px 13px;
   }
 
-  .preview-stage {
-    padding: 20px 12px;
+  .student-card {
+    width: min(360px, 100%);
+    padding: 36px 24px 29px;
+  }
+
+  .school-name {
+    font-size: 10.5px;
+  }
+
+  .school-subtitle {
+    font-size: 7.3px;
+  }
+
+  .footer {
+    padding: 20px 6%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
   }
 }
 
 @media (max-width: 380px) {
+  .brand-name {
+    font-size: 12px;
+  }
+
+  .hero {
+    padding-top: 48px;
+  }
+
+  .hero h1 {
+    font-size: 39px;
+  }
+
   .two-columns {
     gap: 9px;
   }
@@ -472,206 +1109,372 @@ main {
   }
 
   .student-card {
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 17px;
+    padding-left: 17px;
+  }
+
+  .school-logo {
+    width: 29px;
+    height: 29px;
+  }
+
+  .school-header {
+    gap: 7px;
   }
 
   .school-name {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .school-subtitle {
-    font-size: 7.2px;
+    font-size: 6.5px;
   }
 
   .student-name {
-    font-size: 19px;
+    font-size: 17px;
+  }
+
+  .student-numbers {
+    font-size: 9.5px;
+  }
+
+  .qr-image,
+  .qr-placeholder {
+    width: 140px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 </style>
 </head>
 
 <body>
-<header class="topbar">
-  <div class="brand">
-    Cloning Matsduta Presence
-    <small>Student card generator</small>
-  </div>
 
-  <div class="credit">
-    Dibuat oleh<br>
-    <strong>Muh. Fayza Khajagat</strong>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Cloning Matsduta Presence">
+    <div class="brand-mark">MP</div>
+    <div>
+      <div class="brand-name">Cloning Matsduta Presence</div>
+      <div class="brand-caption">Student card generator</div>
+    </div>
+  </a>
+
+  <div class="nav-right">
+    <div class="creator">
+      Dibuat oleh
+      <strong>Muh. Fayza Khajagat</strong>
+    </div>
+    <a href="#builder" class="nav-link">
+      Mulai <span>↗</span>
+    </a>
   </div>
 </header>
 
 <main>
-  <section class="heading">
-    <h1>Generator kartu presensi.</h1>
-    <p>
-      Masukkan data atau pindai QR, periksa hasilnya, lalu hasilkan gambar PNG.
-    </p>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Simple card studio</div>
+
+      <h1>
+        Kartu presensi,<br>
+        disusun <em>ulang.</em>
+      </h1>
+
+      <p class="hero-description">
+        Masukkan data, pindai QR, dan ubah semuanya menjadi
+        gambar kartu dengan satu langkah. Rapi, ringan, langsung dari browser.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#builder" class="button primary">
+          Buat kartu sekarang <span class="arrow">↗</span>
+        </a>
+        <a href="#builder" class="button">
+          Lihat editor <span class="arrow">↓</span>
+        </a>
+      </div>
+
+      <div class="hero-footnote">
+        Tanpa akun · Tanpa backend · Ekspor PNG
+      </div>
+    </div>
+
+    <div class="hero-art" aria-label="Ilustrasi kartu presensi">
+      <div class="art-circle"></div>
+      <div class="art-line"></div>
+      <div class="art-line second"></div>
+
+      <div class="specimen">
+        <div class="specimen-head">
+          <img
+            class="specimen-logo"
+            src="https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png"
+            alt=""
+          >
+          <div>
+            <div class="specimen-school">MTS NEGERI 2 TEGAL</div>
+            <div class="specimen-subtitle">KARTU PRESENSI MURID</div>
+          </div>
+        </div>
+
+        <div class="specimen-name">KARTU MURID</div>
+        <div class="specimen-data">
+          Identitas siswa<br>
+          QR code presensi
+        </div>
+
+        <div class="specimen-bottom">
+          <div class="fake-qr" id="fakeQr" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="art-label">CARD DESIGN · PNG</div>
+    </div>
   </section>
 
-  <div class="workspace">
+  <div class="section-divider"></div>
 
-    <!-- FORM -->
-    <section class="editor">
-      <h2>Data kartu</h2>
-      <p class="section-note">
-        Perubahan akan langsung terlihat pada pratinjau.
-      </p>
-
-      <div class="field">
-        <label for="name">Nama lengkap</label>
-        <input
-          id="name"
-          type="text"
-          placeholder="Masukkan nama lengkap"
-          autocomplete="off"
-          maxlength="100"
-        >
+  <section class="builder-section" id="builder">
+    <div class="section-intro reveal">
+      <div>
+        <div class="eyebrow">Workspace</div>
+        <h2>Buat kartu lo.</h2>
       </div>
 
-      <div class="two-columns">
+      <p>
+        Isi bagian yang diperlukan. Pratinjau akan diperbarui otomatis
+        saat data berubah.
+      </p>
+    </div>
+
+    <div class="workspace">
+      <!-- INPUT -->
+      <section class="editor reveal">
+        <div class="editor-title">
+          <h3>Data kartu</h3>
+          <span class="step-label">01 / INPUT</span>
+        </div>
+
+        <p class="editor-desc">
+          Data hanya diproses di browser. Periksa nama dan nomor sebelum
+          mengunduh hasilnya.
+        </p>
+
         <div class="field">
-          <label for="nisn">NISN</label>
+          <label for="name">Nama lengkap</label>
           <input
-            id="nisn"
+            id="name"
             type="text"
-            inputmode="numeric"
-            placeholder="Nomor NISN"
+            maxlength="100"
             autocomplete="off"
-            maxlength="30"
+            placeholder="Contoh: MUHAMMAD AL FATIH"
           >
         </div>
 
-        <div class="field">
-          <label for="nism">NISM</label>
-          <input
-            id="nism"
-            type="text"
-            inputmode="numeric"
-            placeholder="Nomor NISM"
-            autocomplete="off"
-            maxlength="40"
-          >
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="qrdata">Isi QR code</label>
-        <textarea
-          id="qrdata"
-          placeholder="Masukkan teks atau URL yang akan dimasukkan ke QR"
-          spellcheck="false"
-        ></textarea>
-        <span class="help">
-          QR gambar akan dibuat dari isi kolom ini. Periksa datanya sebelum mengekspor.
-        </span>
-      </div>
-
-      <div class="actions">
-        <button class="btn" id="cameraBtn" type="button">
-          Pindai dengan kamera
-        </button>
-
-        <button class="btn" id="uploadBtn" type="button">
-          Unggah gambar QR
-        </button>
-
-        <input
-          id="qrFile"
-          type="file"
-          accept="image/*"
-          capture="environment"
-          hidden
-        >
-      </div>
-
-      <div id="cameraArea">
-        <div id="reader"></div>
-        <button class="btn" id="stopCameraBtn" type="button">
-          Tutup kamera
-        </button>
-      </div>
-
-      <div class="status" id="status" role="status" aria-live="polite"></div>
-
-      <div class="actions">
-        <button class="btn" id="clearBtn" type="button">
-          Reset
-        </button>
-
-        <button class="btn primary" id="downloadBtn" type="button">
-          Hasilkan gambar PNG
-        </button>
-      </div>
-
-      <p class="help">
-        Logo dan library eksternal memerlukan koneksi internet. Kamera memerlukan
-        izin browser serta HTTPS atau localhost.
-      </p>
-    </section>
-
-    <!-- PREVIEW -->
-    <section class="preview">
-      <div class="preview-heading">
-        <h2>Pratinjau</h2>
-        <span>LIVE PREVIEW</span>
-      </div>
-
-      <div class="preview-stage">
-        <div class="student-card" id="studentCard">
-
-          <div class="school-header">
-            <img
-              class="school-logo"
-              id="schoolLogo"
-              crossorigin="anonymous"
-              src="https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png"
-              alt="Logo sekolah"
+        <div class="two-columns">
+          <div class="field">
+            <label for="nisn">NISN</label>
+            <input
+              id="nisn"
+              type="text"
+              inputmode="numeric"
+              maxlength="30"
+              autocomplete="off"
+              placeholder="Nomor NISN"
             >
-
-            <div class="school-identity">
-              <div class="school-name">MTS NEGERI 2 TEGAL</div>
-              <div class="school-subtitle">KARTU PRESENSI MURID</div>
-            </div>
           </div>
 
-          <div class="student-name" id="previewName">NAMA LENGKAP</div>
-
-          <div class="student-numbers">
-            <div>NISN: <span id="previewNisn"></span></div>
-            <div>NISM: <span id="previewNism"></span></div>
+          <div class="field">
+            <label for="nism">NISM</label>
+            <input
+              id="nism"
+              type="text"
+              inputmode="numeric"
+              maxlength="40"
+              autocomplete="off"
+              placeholder="Nomor NISM"
+            >
           </div>
+        </div>
 
-          <div class="qr-area">
-            <div class="qr-placeholder" id="qrPlaceholder">
-              QR CODE
-            </div>
+        <div class="field">
+          <label for="qrdata">Isi QR code</label>
+          <textarea
+            id="qrdata"
+            spellcheck="false"
+            placeholder="Masukkan isi QR code atau hasil pembacaan QR"
+          ></textarea>
+          <span class="field-help">
+            QR baru dibuat berdasarkan teks di kolom ini. Isi QR asli tidak
+            otomatis sama dengan NISN atau NISM.
+          </span>
+        </div>
 
-            <img
-              class="qr-image"
-              id="previewQr"
-              alt="QR code hasil"
+        <div class="field">
+          <label>Scan atau unggah QR</label>
+
+          <div class="tools">
+            <button class="button small" id="cameraBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h3l2-2h6l2 2h3v12H4z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              Buka kamera
+            </button>
+
+            <button class="button small" id="uploadBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 16V4m-4 4 4-4 4 4"/>
+                <path d="M5 14v5h14v-5"/>
+              </svg>
+              Unggah gambar
+            </button>
+
+            <input
+              id="qrFile"
+              type="file"
+              accept="image/*"
+              capture="environment"
               hidden
             >
           </div>
 
+          <span class="field-help">
+            Kamera memerlukan izin browser. Gunakan HTTPS atau localhost.
+          </span>
         </div>
-      </div>
-    </section>
 
-  </div>
+        <div class="field">
+          <label for="logoFile">Logo sekolah (opsional)</label>
+          <input id="logoFile" type="file" accept="image/*">
+          <span class="field-help">
+            Upload logo lokal jika logo dari server gagal ikut tersimpan di PNG.
+          </span>
+        </div>
+
+        <div class="camera-area" id="cameraArea">
+          <div id="reader"></div>
+          <div class="tools">
+            <button class="button small" id="stopCameraBtn" type="button">
+              Tutup kamera
+            </button>
+          </div>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <div class="editor-actions">
+          <button class="button" id="resetBtn" type="button">
+            Reset data
+          </button>
+
+          <button class="button primary" id="downloadBtn" type="button">
+            Hasilkan gambar PNG <span class="arrow">↗</span>
+          </button>
+        </div>
+
+        <p class="privacy-note">
+          Tool ini membuat gambar kartu dan QR baru. Tool ini bukan bagian
+          dari sistem presensi resmi dan tidak memverifikasi data ke server sekolah.
+        </p>
+      </section>
+
+      <!-- LIVE PREVIEW -->
+      <section class="preview reveal">
+        <div class="preview-top">
+          <h3>Pratinjau kartu</h3>
+          <div class="live-status">
+            <span class="live-dot"></span>
+            LIVE PREVIEW
+          </div>
+        </div>
+
+        <div class="preview-stage">
+          <div class="student-card" id="studentCard">
+
+            <div class="school-header">
+              <img
+                class="school-logo"
+                id="schoolLogo"
+                crossorigin="anonymous"
+                src="https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png"
+                alt="Logo MTs Negeri 2 Tegal"
+              >
+
+              <div class="school-identity">
+                <div class="school-name">MTS NEGERI 2 TEGAL</div>
+                <div class="school-subtitle">KARTU PRESENSI MURID</div>
+              </div>
+            </div>
+
+            <div class="student-name" id="previewName">NAMA LENGKAP</div>
+
+            <div class="student-numbers">
+              <div>NISN: <span id="previewNisn">—</span></div>
+              <div>NISM: <span id="previewNism">—</span></div>
+            </div>
+
+            <div class="qr-area">
+              <div class="qr-placeholder" id="qrPlaceholder">
+                QR CODE
+              </div>
+
+              <img
+                class="qr-image"
+                id="previewQr"
+                alt="QR code hasil"
+                hidden
+              >
+            </div>
+
+          </div>
+        </div>
+
+        <div class="preview-note">
+          Format potret dengan susunan logo, identitas, dan QR di tengah.
+          PNG diekspor dari elemen kartu saja, bukan dari seluruh halaman.
+        </div>
+
+        <div class="preview-tools">
+          <button class="button small" id="copyQrBtn" type="button">
+            Salin isi QR
+          </button>
+          <button class="button small" id="downloadQrBtn" type="button">
+            Unduh QR saja
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
 </main>
 
-<!-- Library untuk membuat QR, membaca QR, dan mengekspor gambar -->
+<footer class="footer">
+  <div>
+    <strong>Cloning Matsduta Presence</strong><br>
+    Student card image generator
+  </div>
+  <div>
+    Dibuat oleh <strong>Muh. Fayza Khajagat</strong>
+  </div>
+</footer>
+
+<!-- Libraries: butuh internet untuk load CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -681,27 +1484,76 @@ main {
 
 const $ = id => document.getElementById(id);
 
-const logoURL =
+const DEFAULT_LOGO =
   "https://presensi.matsduta.id/uploads/logo/1783735591_ac3f5651a10679b74244.png";
 
 let scanner = null;
 let scannerRunning = false;
 let qrTimer = null;
 let qrGenerationId = 0;
+let qrDataUrl = "";
+let localLogoUrl = null;
 
-const inputs = ["name", "nisn", "nism", "qrdata"];
+const fields = ["name", "nisn", "nism", "qrdata"];
 
-/* --------------------------------------------------
-   STATUS
--------------------------------------------------- */
+/* ------------------------------------
+   MOTION: reveal saat section terlihat
+------------------------------------ */
 
-function setStatus(message) {
-  $("status").textContent = message;
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+} else {
+  document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
 }
 
-/* --------------------------------------------------
-   LIVE PREVIEW
--------------------------------------------------- */
+/* ------------------------------------
+   QR ILLUSTRATION LANDING
+------------------------------------ */
+
+(function makeFakeQR() {
+  const holder = $("fakeQr");
+  const pattern = [
+    "111101111",
+    "100101001",
+    "101101101",
+    "111101111",
+    "000010010",
+    "110111001",
+    "011010110",
+    "101101010",
+    "111001101"
+  ];
+
+  pattern.forEach(row => {
+    [...row].forEach(value => {
+      const cell = document.createElement("i");
+      if (value === "1") cell.className = "on";
+      holder.appendChild(cell);
+    });
+  });
+})();
+
+/* ------------------------------------
+   STATUS
+------------------------------------ */
+
+function setStatus(message, type = "success") {
+  $("status").textContent = message;
+  $("status").classList.toggle("error", type === "error");
+}
+
+/* ------------------------------------
+   UPDATE CARD
+------------------------------------ */
 
 function updatePreview() {
   const name = $("name").value.trim();
@@ -709,44 +1561,45 @@ function updatePreview() {
   $("previewName").textContent =
     name ? name.toLocaleUpperCase("id-ID") : "NAMA LENGKAP";
 
-  $("previewNisn").textContent = $("nisn").value.trim();
-  $("previewNism").textContent = $("nism").value.trim();
+  $("previewNisn").textContent = $("nisn").value.trim() || "—";
+  $("previewNism").textContent = $("nism").value.trim() || "—";
 
   clearTimeout(qrTimer);
-
-  qrTimer = setTimeout(() => {
-    generateQR($("qrdata").value);
-  }, 180);
+  qrTimer = setTimeout(() => generateQR($("qrdata").value), 180);
 }
 
-inputs.forEach(id => {
+fields.forEach(id => {
   $(id).addEventListener("input", updatePreview);
 });
 
-/* --------------------------------------------------
-   GENERATE QR CODE
--------------------------------------------------- */
+/* ------------------------------------
+   QR GENERATOR
+------------------------------------ */
 
-function generateQR(value) {
+function generateQR(rawValue) {
   const requestId = ++qrGenerationId;
-  const content = value.trim();
+  const value = rawValue.trim();
 
+  qrDataUrl = "";
   $("previewQr").hidden = true;
-  $("qrPlaceholder").hidden = false;
   $("previewQr").removeAttribute("src");
+  $("qrPlaceholder").hidden = false;
 
-  if (!content) return;
+  if (!value) return;
 
   if (!window.QRCode) {
-    setStatus("QR library belum termuat. Periksa koneksi internet.");
+    setStatus(
+      "Library QR belum termuat. Pastikan internet aktif lalu muat ulang halaman.",
+      "error"
+    );
     return;
   }
 
-  const temp = document.createElement("div");
-
   try {
+    const temp = document.createElement("div");
+
     new QRCode(temp, {
-      text: content,
+      text: value,
       width: 500,
       height: 500,
       correctLevel: QRCode.CorrectLevel.M
@@ -755,128 +1608,124 @@ function generateQR(value) {
     const canvas = temp.querySelector("canvas");
     const image = temp.querySelector("img");
 
-    let dataURL = "";
+    let dataUrl = "";
 
     if (canvas) {
-      dataURL = canvas.toDataURL("image/png");
+      dataUrl = canvas.toDataURL("image/png");
     } else if (image) {
-      dataURL = image.src;
+      dataUrl = image.src;
     }
 
-    if (!dataURL || requestId !== qrGenerationId) return;
+    if (!dataUrl || requestId !== qrGenerationId) return;
+
+    qrDataUrl = dataUrl;
 
     const previewImage = $("previewQr");
-
-    previewImage.onload = () => {
-      if (requestId !== qrGenerationId) return;
-
-      previewImage.hidden = false;
-      $("qrPlaceholder").hidden = true;
-    };
-
-    previewImage.onerror = () => {
-      setStatus("QR gagal ditampilkan. Periksa isi QR code.");
-    };
-
-    previewImage.src = dataURL;
+    previewImage.src = dataUrl;
+    previewImage.hidden = false;
+    $("qrPlaceholder").hidden = true;
 
   } catch (error) {
-    setStatus("QR tidak dapat dibuat: " + error.message);
+    setStatus("QR tidak bisa dibuat: " + error.message, "error");
   }
 }
 
-/* --------------------------------------------------
-   EXTRACT DATA DARI QR
-   Mendukung JSON, URL parameter, dan teks berlabel.
--------------------------------------------------- */
+/* ------------------------------------
+   AMBIL DATA DARI QR
+   JSON, URL parameter, atau teks berlabel
+------------------------------------ */
 
 function extractStudentData(raw) {
-  const result = {
+  const output = {
     name: "",
     nisn: "",
     nism: ""
   };
 
-  // Format JSON: {"nama":"...","nisn":"...","nism":"..."}
+  // Contoh JSON: {"nama":"...","nisn":"...","nism":"..."}
   try {
     const obj = JSON.parse(raw);
 
-    if (typeof obj === "object" && obj !== null) {
-      result.name =
+    if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+      output.name =
         obj.name || obj.nama || obj.student_name || "";
 
-      result.nisn = obj.nisn || obj.NISN || "";
-      result.nism = obj.nism || obj.NISM || "";
+      output.nisn = obj.nisn || obj.NISN || "";
+      output.nism = obj.nism || obj.NISM || "";
     }
   } catch (_) {}
 
-  // Format URL dengan parameter nama, nisn, nism.
+  // Contoh URL: ?nama=...&nisn=...&nism=...
   try {
     const url = new URL(raw);
 
-    const getParam = names => {
-      for (const name of names) {
-        const value = url.searchParams.get(name);
+    const findParam = keys => {
+      for (const key of keys) {
+        const value = url.searchParams.get(key);
         if (value) return value;
       }
       return "";
     };
 
-    result.name ||= getParam(["nama", "name", "student_name"]);
-    result.nisn ||= getParam(["nisn", "NISN"]);
-    result.nism ||= getParam(["nism", "NISM"]);
+    output.name ||= findParam(["nama", "name", "student_name"]);
+    output.nisn ||= findParam(["nisn", "NISN"]);
+    output.nism ||= findParam(["nism", "NISM"]);
   } catch (_) {}
 
-  // Format teks seperti:
+  // Contoh teks:
   // Nama: ...
   // NISN: ...
   // NISM: ...
-  const findLine = labels => {
-    const pattern = new RegExp(
+  const lineValue = labels => {
+    const regex = new RegExp(
       "(?:^|[\\n;,|])\\s*(?:" +
       labels.join("|") +
       ")\\s*[:=]\\s*([^\\n;,|]+)",
       "i"
     );
 
-    const match = raw.match(pattern);
+    const match = raw.match(regex);
     return match ? match[1].trim() : "";
   };
 
-  result.name ||= findLine(["nama", "name", "student_name"]);
-  result.nisn ||= findLine(["nisn"]);
-  result.nism ||= findLine(["nism"]);
+  output.name ||= lineValue(["nama", "name", "student_name"]);
+  output.nisn ||= lineValue(["nisn"]);
+  output.nism ||= lineValue(["nism"]);
 
-  return result;
+  return output;
 }
 
-function applyScannedData(raw) {
-  $("qrdata").value = raw;
+function applyScannedQR(decodedText) {
+  $("qrdata").value = decodedText;
 
-  const data = extractStudentData(raw);
+  const extracted = extractStudentData(decodedText);
 
-  if (data.name) $("name").value = data.name;
-  if (data.nisn) $("nisn").value = data.nisn;
-  if (data.nism) $("nism").value = data.nism;
+  if (extracted.name) $("name").value = extracted.name;
+  if (extracted.nisn) $("nisn").value = extracted.nisn;
+  if (extracted.nism) $("nism").value = extracted.nism;
 
   updatePreview();
 
-  const found = [data.name, data.nisn, data.nism].filter(Boolean).length;
+  const count = [
+    extracted.name,
+    extracted.nisn,
+    extracted.nism
+  ].filter(Boolean).length;
 
-  if (found > 0) {
+  if (count > 0) {
     setStatus(
-      "QR terbaca. Data yang ditemukan otomatis diisi. Periksa hasilnya."
+      "QR berhasil dibaca. Data yang ditemukan sudah dimasukkan."
     );
   } else {
     setStatus(
-      "QR terbaca. Isi QR sudah dimasukkan, tetapi nama/NISN/NISM tidak ditemukan dalam format yang dikenali."
+      "QR terbaca. Data murid tidak dikenali dalam formatnya, jadi isi kolom manual."
     );
   }
 }
 
-/* --------------------------------------------------
-   SCAN QR DARI FILE GAMBAR
--------------------------------------------------- */
+/* ------------------------------------
+   SCAN QR DARI GAMBAR
+------------------------------------ */
 
 $("uploadBtn").addEventListener("click", () => {
   $("qrFile").click();
@@ -884,50 +1733,65 @@ $("uploadBtn").addEventListener("click", () => {
 
 $("qrFile").addEventListener("change", async event => {
   const file = event.target.files && event.target.files[0];
-
   if (!file) return;
 
   if (!window.Html5Qrcode) {
-    setStatus("Library pemindai belum tersedia. Periksa koneksi internet.");
+    setStatus("Library pemindai belum termuat. Periksa internet.", "error");
     event.target.value = "";
     return;
   }
 
-  setStatus("Sedang membaca QR dari gambar…");
+  await stopCamera(false);
+
+  $("cameraArea").classList.add("active");
+  setStatus("Membaca QR dari gambar…");
+
+  let fileReader = null;
 
   try {
-    const reader = new Html5Qrcode("reader");
-    const decoded = await reader.scanFile(file, true);
+    fileReader = new Html5Qrcode("reader");
 
-    applyScannedData(decoded);
+    const decoded = await fileReader.scanFile(file, true);
+    applyScannedQR(decoded);
 
   } catch (error) {
     setStatus(
-      "QR tidak terbaca. Coba gambar yang lebih jelas dan pastikan QR tidak terpotong."
+      "QR belum terbaca. Coba foto yang lebih tajam dan pastikan QR terlihat utuh.",
+      "error"
     );
   } finally {
+    if (fileReader) {
+      try { await fileReader.clear(); } catch (_) {}
+    }
+
+    $("reader").innerHTML = "";
+    $("cameraArea").classList.remove("active");
     event.target.value = "";
   }
 });
 
-/* --------------------------------------------------
-   SCAN QR DENGAN KAMERA
--------------------------------------------------- */
+/* ------------------------------------
+   CAMERA SCAN
+------------------------------------ */
 
 $("cameraBtn").addEventListener("click", async () => {
   if (!window.Html5Qrcode) {
-    setStatus("Library kamera belum termuat. Periksa koneksi internet.");
+    setStatus("Library kamera belum tersedia. Periksa koneksi internet.", "error");
     return;
   }
 
-  if (scannerRunning) return;
+  if (scannerRunning) {
+    await stopCamera();
+    return;
+  }
 
+  $("cameraArea").classList.add("active");
   $("cameraBtn").disabled = true;
-  $("cameraArea").style.display = "block";
   setStatus("Meminta izin kamera…");
 
   try {
     scanner = new Html5Qrcode("reader");
+    scannerRunning = true;
 
     await scanner.start(
       { facingMode: "environment" },
@@ -937,104 +1801,168 @@ $("cameraBtn").addEventListener("click", async () => {
         aspectRatio: 1
       },
       decoded => {
-        applyScannedData(decoded);
+        if (!scannerRunning) return;
+
+        applyScannedQR(decoded);
         stopCamera();
       },
       () => {
-        // Abaikan frame yang belum menemukan QR.
+        // Frame yang belum memiliki QR diabaikan.
       }
     );
 
-    scannerRunning = true;
-    setStatus("Arahkan kamera ke QR code.");
+    if (scannerRunning) {
+      setStatus("Arahkan kamera ke QR code.");
+    }
 
   } catch (error) {
     scannerRunning = false;
-
+    scanner = null;
     $("cameraBtn").disabled = false;
-    $("cameraArea").style.display = "none";
+    $("cameraArea").classList.remove("active");
 
     setStatus(
-      "Kamera tidak dapat dibuka. Periksa izin kamera dan pastikan situs menggunakan HTTPS."
+      "Kamera gagal dibuka. Izinkan akses kamera dan buka melalui HTTPS atau localhost.",
+      "error"
     );
   }
 });
 
-async function stopCamera() {
-  if (scanner && scannerRunning) {
+async function stopCamera(hideArea = true) {
+  if (scanner) {
     try {
-      await scanner.stop();
+      if (scannerRunning) await scanner.stop();
+    } catch (_) {}
+
+    try {
       await scanner.clear();
     } catch (_) {}
   }
 
-  scannerRunning = false;
   scanner = null;
+  scannerRunning = false;
 
   $("cameraBtn").disabled = false;
-  $("cameraArea").style.display = "none";
+
+  if (hideArea) {
+    $("cameraArea").classList.remove("active");
+    $("reader").innerHTML = "";
+  }
 }
 
-$("stopCameraBtn").addEventListener("click", stopCamera);
-
-/* --------------------------------------------------
-   RESET FORM
--------------------------------------------------- */
-
-$("clearBtn").addEventListener("click", async () => {
+$("stopCameraBtn").addEventListener("click", async () => {
   await stopCamera();
-
-  inputs.forEach(id => {
-    $(id).value = "";
-  });
-
-  updatePreview();
-  setStatus("Data telah dikosongkan.");
+  setStatus("Kamera ditutup.");
 });
 
-/* --------------------------------------------------
-   EXPORT PNG
--------------------------------------------------- */
+/* ------------------------------------
+   CUSTOM LOGO UPLOAD
+------------------------------------ */
 
-$("downloadBtn").addEventListener("click", async () => {
-  const name = $("name").value.trim();
-  const qrData = $("qrdata").value.trim();
+$("logoFile").addEventListener("change", event => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
 
-  if (!name) {
-    $("name").focus();
-    setStatus("Masukkan nama terlebih dahulu.");
+  if (!file.type.startsWith("image/")) {
+    setStatus("Pilih file gambar untuk logo.", "error");
     return;
   }
 
-  if (!qrData) {
+  if (localLogoUrl) {
+    URL.revokeObjectURL(localLogoUrl);
+  }
+
+  localLogoUrl = URL.createObjectURL(file);
+
+  $("schoolLogo").src = localLogoUrl;
+  $("schoolLogo").removeAttribute("crossorigin");
+
+  // Logo hero mengikuti logo kartu.
+  const specimenLogo = document.querySelector(".specimen-logo");
+  specimenLogo.src = localLogoUrl;
+  specimenLogo.removeAttribute("crossorigin");
+
+  $("schoolLogo").onload = () => {
+    setStatus("Logo lokal berhasil digunakan.");
+  };
+
+  $("schoolLogo").onerror = () => {
+    setStatus("Logo gagal dimuat. Pilih gambar lain.", "error");
+  };
+
+  event.target.value = "";
+});
+
+/* ------------------------------------
+   RESET
+------------------------------------ */
+
+$("resetBtn").addEventListener("click", async () => {
+  await stopCamera();
+
+  fields.forEach(id => {
+    $(id).value = "";
+  });
+
+  if (localLogoUrl) {
+    URL.revokeObjectURL(localLogoUrl);
+    localLogoUrl = null;
+  }
+
+  $("schoolLogo").removeAttribute("crossorigin");
+  $("schoolLogo").src = DEFAULT_LOGO;
+
+  const specimenLogo = document.querySelector(".specimen-logo");
+  specimenLogo.src = DEFAULT_LOGO;
+
+  updatePreview();
+  setStatus("Form sudah direset.");
+});
+
+/* ------------------------------------
+   DOWNLOAD CARD PNG
+------------------------------------ */
+
+$("downloadBtn").addEventListener("click", async () => {
+  if (!$("name").value.trim()) {
+    $("name").focus();
+    setStatus("Nama lengkap belum diisi.", "error");
+    return;
+  }
+
+  if (!$("qrdata").value.trim()) {
     $("qrdata").focus();
-    setStatus("Masukkan isi QR atau pindai QR terlebih dahulu.");
+    setStatus("Isi QR code belum dimasukkan.", "error");
     return;
   }
 
   if (!window.html2canvas) {
-    setStatus("Library ekspor belum termuat. Periksa koneksi internet.");
+    setStatus("Library ekspor tidak tersedia. Periksa internet.", "error");
     return;
   }
 
   const button = $("downloadBtn");
-  const originalText = button.textContent;
+  const previousText = button.innerHTML;
 
   button.disabled = true;
-  button.textContent = "Membuat gambar…";
+  button.textContent = "Menyiapkan PNG…";
 
   try {
-    // Tunggu QR terbaru tampil di pratinjau.
+    // Tunggu QR paling baru.
     await new Promise((resolve, reject) => {
       const image = $("previewQr");
 
-      if (!image.hidden && image.complete && image.naturalWidth > 0) {
+      if (
+        !image.hidden &&
+        image.complete &&
+        image.naturalWidth > 0
+      ) {
         resolve();
         return;
       }
 
       const timeout = setTimeout(() => {
-        reject(new Error("QR belum selesai dibuat."));
+        reject(new Error("QR belum siap. Periksa isi QR code."));
       }, 8000);
 
       image.onload = () => {
@@ -1048,7 +1976,16 @@ $("downloadBtn").addEventListener("click", async () => {
       };
     });
 
-    // Beri kesempatan browser menerapkan layout terbaru.
+    // Tunggu logo selesai jika sedang dimuat.
+    const logo = $("schoolLogo");
+
+    if (!logo.complete) {
+      await new Promise(resolve => {
+        logo.addEventListener("load", resolve, { once: true });
+        logo.addEventListener("error", resolve, { once: true });
+      });
+    }
+
     await new Promise(resolve => requestAnimationFrame(resolve));
 
     const canvas = await html2canvas($("studentCard"), {
@@ -1064,44 +2001,99 @@ $("downloadBtn").addEventListener("click", async () => {
     });
 
     if (!blob) {
-      throw new Error("PNG tidak dapat dibuat.");
+      throw new Error("Browser gagal menghasilkan PNG.");
     }
 
-    const url = URL.createObjectURL(blob);
+    const downloadURL = URL.createObjectURL(blob);
     const link = document.createElement("a");
 
-    link.href = url;
+    link.href = downloadURL;
     link.download = "kartu-presensi-matsduta.png";
 
     document.body.appendChild(link);
     link.click();
     link.remove();
 
-    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    setTimeout(() => URL.revokeObjectURL(downloadURL), 2000);
 
-    setStatus("Gambar PNG berhasil dibuat.");
+    setStatus("Gambar kartu berhasil dibuat.");
 
   } catch (error) {
     setStatus(
       error.message +
-      " Jika logo bermasalah, periksa koneksi dan izin gambar dari server."
+      " Jika masalahnya pada logo, unggah file logo lokal lalu coba lagi.",
+      "error"
     );
   } finally {
     button.disabled = false;
-    button.textContent = originalText;
+    button.innerHTML = previousText;
   }
 });
 
-/* --------------------------------------------------
-   INIT
--------------------------------------------------- */
+/* ------------------------------------
+   DOWNLOAD QR SAJA
+------------------------------------ */
+
+$("downloadQrBtn").addEventListener("click", () => {
+  if (!qrDataUrl) {
+    setStatus("Isi QR code terlebih dahulu.", "error");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = qrDataUrl;
+  link.download = "qrcode-presensi.png";
+  link.click();
+
+  setStatus("QR code berhasil diunduh.");
+});
+
+/* ------------------------------------
+   COPY QR CONTENT
+------------------------------------ */
+
+$("copyQrBtn").addEventListener("click", async () => {
+  const text = $("qrdata").value;
+
+  if (!text.trim()) {
+    setStatus("Tidak ada isi QR untuk disalin.", "error");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    setStatus("Isi QR berhasil disalin.");
+  } catch (_) {
+    $("qrdata").focus();
+    $("qrdata").select();
+
+    const copied = document.execCommand("copy");
+
+    setStatus(
+      copied
+        ? "Isi QR berhasil disalin."
+        : "Browser tidak mengizinkan salin otomatis. Salin teks yang sudah dipilih.",
+      copied ? "success" : "error"
+    );
+  }
+});
+
+/* ------------------------------------
+   LOGO ERROR HANDLING
+------------------------------------ */
 
 $("schoolLogo").addEventListener("error", () => {
-  setStatus("Logo gagal dimuat. Periksa koneksi internet atau URL logo.");
+  setStatus(
+    "Logo dari server tidak bisa dimuat. Upload gambar logo lokal untuk ekspor.",
+    "error"
+  );
 });
+
+/* ------------------------------------
+   INIT
+------------------------------------ */
 
 updatePreview();
 </script>
-
 </body>
 </html>
