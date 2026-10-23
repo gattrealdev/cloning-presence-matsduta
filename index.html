@@ -720,152 +720,87 @@ textarea:focus-visible {
   background-color: #f0f3ed;
   border: 1px solid #e4e9e0;
 }
-/* ===== UKURAN KARTU MENYESUAIKAN KARTU FISIK ===== */
-
+/* FIX MOBILE: kartu proporsional seperti kartu fisik */
 .student-card {
   width: min(360px, 100%);
   aspect-ratio: 0.64;
   height: auto;
-
-  padding: 40px 25px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 24px 20px;
   justify-content: flex-start;
 }
 
-/* Garis tepi dalam */
-.student-card::before {
-  inset: 9px;
-}
-
-/* Header sekolah */
+/* Header sekolah rata tengah */
 .school-header {
-  width: 100%;
-  flex-shrink: 0;
-  gap: 9px;
-  padding: 4px 0 11px;
-}
-
-.school-logo {
-  width: 30px;
-  height: 30px;
-}
-
-.school-name {
-  font-size: 10.5px;
-  line-height: 1.35;
-}
-
-.school-subtitle {
-  margin-top: 2px;
-  font-size: 7.3px;
-}
-
-/* Nama murid */
-.student-name {
-  width: 100%;
-  max-width: 250px;
-  margin-top: 38px;
-
-  font-size: 19px;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-/* NISN dan NISM */
-.student-numbers {
-  margin-top: 10px;
-  font-size: 10.5px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-
-/* QR lebih besar, jaraknya konsisten */
-.qr-area {
-  width: 100%;
-  min-height: 0;
-  flex: 0 0 auto;
-
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  text-align: left;
+}
 
-  margin-top: 55px;
+/* Identitas siswa */
+.student-name {
+  margin-top: 24px;
+  max-width: 100%;
+  text-align: center;
+}
+
+.student-numbers {
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* QR tidak menggunakan sisa tinggi kartu */
+.qr-area {
+  margin-top: 30px;
   padding: 0;
+  flex: 0 0 auto;
+  justify-content: center;
 }
 
 .qr-image,
 .qr-placeholder {
-  display: block;
-  width: 175px;
+  width: 145px;
   max-width: 68%;
-  height: auto;
   aspect-ratio: 1;
-  flex-shrink: 0;
+  height: auto;
 }
 
-.qr-image {
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.qr-placeholder {
-  display: grid;
-  place-items: center;
-  padding: 10px;
-  border: 1px dashed #d0d9d0;
-  background: #fff;
-  color: #87948a;
-  font-size: 10px;
-}
-
-/* Layar HP */
+/* HP */
 @media (max-width: 680px) {
+  .preview-stage {
+    min-height: 0;
+    padding: 20px 12px;
+    align-items: flex-start;
+  }
+
   .student-card {
     width: min(360px, 100%);
-    padding: 40px 24px 30px;
+    padding: 24px 20px;
   }
 
-  .qr-area {
-    margin-top: 48px;
-  }
-}
-
-@media (max-width: 380px) {
-  .student-card {
-    padding-right: 17px;
-    padding-left: 17px;
+  .school-header {
+    justify-content: center;
   }
 
   .school-name {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .school-subtitle {
-    font-size: 6.5px;
+    font-size: 7px;
   }
 
   .student-name {
-    font-size: 17px;
+    margin-top: 24px;
+    font-size: 18px;
   }
 
   .student-numbers {
-    font-size: 9.5px;
-  }
-
-  .qr-image,
-  .qr-placeholder {
-    width: 150px;
+    font-size: 10px;
   }
 
   .qr-area {
-    margin-top: 42px;
+    margin-top: 30px;
   }
-}
-
-[hidden] {
-  display: none !important;
 }
 
 .preview-note {
@@ -1166,6 +1101,88 @@ textarea:focus-visible {
 
 .nav-link:hover .rocket-icon {
   transform: translate(2px, -2px) rotate(-8deg);
+}
+/* FIX MOBILE: kartu proporsional seperti kartu fisik */
+.student-card {
+  width: min(360px, 100%);
+  aspect-ratio: 0.64;
+  height: auto;
+  padding: 24px 20px;
+  justify-content: flex-start;
+}
+
+/* Header sekolah rata tengah */
+.school-header {
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+/* Identitas siswa */
+.student-name {
+  margin-top: 24px;
+  max-width: 100%;
+  text-align: center;
+}
+
+.student-numbers {
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* QR tidak menggunakan sisa tinggi kartu */
+.qr-area {
+  margin-top: 30px;
+  padding: 0;
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+.qr-image,
+.qr-placeholder {
+  width: 145px;
+  max-width: 68%;
+  aspect-ratio: 1;
+  height: auto;
+}
+
+/* HP */
+@media (max-width: 680px) {
+  .preview-stage {
+    min-height: 0;
+    padding: 20px 12px;
+    align-items: flex-start;
+  }
+
+  .student-card {
+    width: min(360px, 100%);
+    padding: 24px 20px;
+  }
+
+  .school-header {
+    justify-content: center;
+  }
+
+  .school-name {
+    font-size: 10px;
+  }
+
+  .school-subtitle {
+    font-size: 7px;
+  }
+
+  .student-name {
+    margin-top: 24px;
+    font-size: 18px;
+  }
+
+  .student-numbers {
+    font-size: 10px;
+  }
+
+  .qr-area {
+    margin-top: 30px;
+  }
 }
 </style>
 </head>
