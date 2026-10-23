@@ -1249,6 +1249,227 @@ textarea:focus-visible {
     transform: none;
   }
 }
+[hidden] { display: none !important; }
+
+#qrFile {
+  display: none !important;
+}
+
+.field:has(#qrFile) {
+  margin-bottom: 14px;
+}
+
+.field:has(#qrFile) .tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.field:has(#qrFile) .button {
+  min-height: 42px;
+}
+
+.camera-area {
+  margin-top: 12px;
+  border-radius: 5px;
+}
+
+#reader {
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+#reader video {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+  object-fit: cover;
+}
+
+#reader img {
+  max-width: 100%;
+  height: auto;
+}
+
+.editor-actions {
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.privacy-note {
+  margin-top: 12px;
+}
+
+.workspace {
+  align-items: start;
+}
+
+.preview-stage {
+  width: 100%;
+  min-width: 0;
+  align-items: flex-start;
+}
+
+.student-card {
+  flex-shrink: 0;
+  margin-inline: auto;
+}
+
+@media (max-width: 680px) {
+  .builder-section {
+    padding: 34px 5% 38px;
+  }
+
+  .section-intro {
+    margin-bottom: 23px;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .editor,
+  .preview {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .editor-desc {
+    margin-bottom: 18px;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .two-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .field input,
+  .field textarea {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+
+  .editor-actions .button {
+    min-height: 42px;
+  }
+
+  .preview-top {
+    margin-bottom: 13px;
+  }
+
+  .preview-stage {
+    padding: 18px 10px;
+  }
+
+  .student-card {
+    width: min(230px, 100%);
+    padding: 22px 17px;
+  }
+
+  .school-logo {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    object-fit: contain;
+  }
+
+  .school-header {
+    gap: 7px;
+  }
+
+  .school-name {
+    font-size: 8px;
+  }
+
+  .school-subtitle {
+    font-size: 5.8px;
+  }
+
+  .student-name {
+    margin-top: 24px;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  .student-numbers {
+    margin-top: 7px;
+    font-size: 8px;
+    line-height: 1.75;
+  }
+
+  .qr-area {
+    margin-top: 23px;
+  }
+
+  .qr-image,
+  .qr-placeholder {
+    width: 112px;
+    max-width: 76%;
+  }
+
+  .footer {
+    padding: 18px 5%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .two-columns {
+    gap: 8px;
+  }
+
+  .field input {
+    padding: 10px 8px;
+  }
+
+  .student-card {
+    width: min(218px, 100%);
+    padding: 21px 15px;
+  }
+
+  .school-name {
+    font-size: 7.5px;
+  }
+
+  .school-subtitle {
+    font-size: 5.5px;
+  }
+
+  .student-name {
+    font-size: 14px;
+  }
+
+  .student-numbers {
+    font-size: 7.5px;
+  }
+
+  .qr-image,
+  .qr-placeholder {
+    width: 105px;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+
 </style>
 
 </head>
@@ -1471,7 +1692,7 @@ textarea:focus-visible {
             </button>
 
 
-<input hidden
+<input
   id="qrFile"
   type="file"
   accept=".png,image/png"
@@ -1493,7 +1714,14 @@ textarea:focus-visible {
             Kamera memerlukan izin browser. Gunakan HTTPS atau localhost.
           </span>
         </div>
-
+<div class="camera-area" id="cameraArea">
+  <div id="reader"></div>
+  <div class="tools">
+    <button class="button small" id="stopCameraBtn" type="button">
+      Tutup kamera
+    </button>
+  </div>
+</div>
         <div class="status" id="status" role="status" aria-live="polite"></div>
 
         <div class="editor-actions">
@@ -2024,41 +2252,6 @@ $("stopCameraBtn").addEventListener("click", async () => {
   setStatus("Kamera ditutup.");
 });
 
-/* ------------------------------------
-   CUSTOM LOGO UPLOAD
------------------------------------- */
-
-$("logoFile").addEventListener("change", event => {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    setStatus("Pilih file gambar untuk logo.", "error");
-    return;
-  }
-
-  if (localLogoUrl) {
-    URL.revokeObjectURL(localLogoUrl);
-  }
-
-  localLogoUrl = URL.createObjectURL(file);
-
-  $("schoolLogo").src = localLogoUrl;
-
-  // Logo hero mengikuti logo kartu.
-  const specimenLogo = document.querySelector(".specimen-logo");
-  specimenLogo.src = localLogoUrl;
-
-  $("schoolLogo").onload = () => {
-    setStatus("Logo lokal berhasil digunakan.");
-  };
-
-  $("schoolLogo").onerror = () => {
-    setStatus("Logo gagal dimuat. Pilih gambar lain.", "error");
-  };
-
-  event.target.value = "";
-});
 
 /* ------------------------------------
    RESET
