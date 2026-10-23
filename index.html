@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#f7f8f5">
 <title>Cloning Matsduta Presence</title>
 
+
 <style>
 :root {
   --bg: #f7f8f5;
@@ -26,7 +27,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 35px;
+  scroll-padding-top: 28px;
 }
 
 body {
@@ -38,11 +39,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-button, input, textarea {
+button,
+input,
+textarea {
   font: inherit;
 }
 
-button, a, input {
+button,
+a,
+input {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -68,27 +73,27 @@ textarea:focus-visible {
   color: #163b28;
 }
 
-/* --------------------------------
-   HEADER
--------------------------------- */
+/* HEADER */
 
 .topbar {
   position: relative;
   z-index: 5;
   width: 100%;
-  height: 72px;
-  padding: 0 7%;
+  min-height: 68px;
+  padding: 12px 7%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   border-bottom: 1px solid var(--line);
-  background: rgba(247,248,245,.94);
+  background: rgba(247, 248, 245, .96);
 }
 
 .brand {
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
 }
 
 .brand-mark {
@@ -101,14 +106,18 @@ textarea:focus-visible {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: -1px;
-  transition:
-    background .3s,
-    transform .5s var(--ease);
+  transition: background .3s, transform .4s var(--ease);
 }
 
 .brand:hover .brand-mark {
   background: var(--green-soft);
   transform: rotate(-5deg);
+}
+
+.brand > img.specimen-logo {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
 }
 
 .brand-name {
@@ -144,42 +153,41 @@ textarea:focus-visible {
 .nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   color: var(--green-dark);
   font-size: 12px;
   font-weight: 750;
 }
 
-.nav-link span {
-  transition: transform .3s var(--ease);
+.rocket-icon {
+  flex-shrink: 0;
+  transition: transform .25s var(--ease);
 }
 
-.nav-link:hover span {
-  transform: translateX(4px);
+.nav-link:hover .rocket-icon {
+  transform: translate(2px, -2px) rotate(-8deg);
 }
 
-/* --------------------------------
-   LANDING PAGE
--------------------------------- */
+/* HERO */
 
 .hero {
   position: relative;
   width: 100%;
   max-width: 1400px;
-  min-height: 510px;
+  min-height: 490px;
   margin: 0 auto;
-  padding: 85px 9% 78px;
+  padding: 75px 9% 65px;
   display: grid;
   grid-template-columns: 1.05fr .95fr;
   align-items: center;
-  gap: 60px;
+  gap: 50px;
   overflow: hidden;
 }
 
 .hero-copy {
   position: relative;
   z-index: 2;
-  animation: rise .85s var(--ease) both;
+  animation: rise .75s var(--ease) both;
 }
 
 .eyebrow {
@@ -189,7 +197,7 @@ textarea:focus-visible {
   color: var(--green-dark);
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 1.8px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
 }
 
@@ -202,11 +210,11 @@ textarea:focus-visible {
 
 .hero h1 {
   max-width: 580px;
-  margin: 23px 0 18px;
-  font-size: clamp(39px, 5.5vw, 66px);
+  margin: 22px 0 17px;
+  font-size: clamp(38px, 5.2vw, 64px);
   font-weight: 750;
-  line-height: 1.02;
-  letter-spacing: -3.4px;
+  line-height: 1.04;
+  letter-spacing: -3px;
 }
 
 .hero h1 em {
@@ -214,30 +222,36 @@ textarea:focus-visible {
   font-style: normal;
 }
 
+.hero h1 b {
+  font-size: .72em;
+  font-weight: 650;
+  letter-spacing: -1.7px;
+}
+
 .hero-description {
   max-width: 405px;
   margin: 0;
   color: var(--muted);
   font-size: 14px;
-  line-height: 1.9;
+  line-height: 1.85;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 22px;
-  margin-top: 31px;
+  gap: 12px;
+  margin-top: 28px;
 }
 
 .button {
   position: relative;
   display: inline-flex;
-  min-height: 45px;
+  min-height: 43px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 0 17px;
+  gap: 10px;
+  padding: 0 15px;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--surface);
@@ -268,7 +282,7 @@ textarea:focus-visible {
 }
 
 .button:active {
-  transform: translateY(0) scale(.985);
+  transform: scale(.985);
 }
 
 .button:disabled {
@@ -277,8 +291,9 @@ textarea:focus-visible {
   transform: none;
 }
 
-.arrow {
-  display: inline-block;
+.button .arrow,
+.button > svg {
+  flex-shrink: 0;
   transition: transform .25s var(--ease);
 }
 
@@ -286,27 +301,31 @@ textarea:focus-visible {
   transform: translateX(3px);
 }
 
-.hero-footnote {
-  margin-top: 24px;
-  color: #8a938c;
-  font-size: 10px;
-  letter-spacing: .2px;
+.button:hover > svg {
+  transform: translate(2px, -2px);
 }
 
-/* Hero visual: ilustrasi minimal, bukan tumpukan dashboard */
+.hero-footnote {
+  margin-top: 20px;
+  color: #8a938c;
+  font-size: 10px;
+  letter-spacing: .1px;
+}
+
+/* HERO CARD ILLUSTRATION */
 
 .hero-art {
   position: relative;
-  min-height: 330px;
+  min-height: 315px;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: rise 1s .1s var(--ease) both;
+  animation: rise .9s .1s var(--ease) both;
 }
 
 .art-circle {
   position: absolute;
-  width: 300px;
+  width: 285px;
   aspect-ratio: 1;
   border: 1px solid #e0e9df;
   border-radius: 50%;
@@ -331,7 +350,7 @@ textarea:focus-visible {
 
 .art-line {
   position: absolute;
-  width: 390px;
+  width: 340px;
   height: 1px;
   background: linear-gradient(
     to right,
@@ -350,12 +369,12 @@ textarea:focus-visible {
 .specimen {
   position: relative;
   z-index: 1;
-  width: 230px;
-  min-height: 280px;
-  padding: 25px 21px;
+  width: 220px;
+  min-height: 0;
+  padding: 22px 19px;
   border: 1px solid #e0e5dd;
-  background: rgba(255,255,255,.95);
-  box-shadow: 0 18px 50px rgba(34,57,40,.07);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 18px 45px rgba(34, 57, 40, .07);
   animation: float 6s ease-in-out infinite;
 }
 
@@ -363,13 +382,13 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding-bottom: 13px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #edf0eb;
 }
 
 .specimen-logo {
-  width: 27px;
-  height: 27px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 
@@ -383,19 +402,19 @@ textarea:focus-visible {
   color: var(--green);
   font-size: 6px;
   font-weight: 800;
-  letter-spacing: .15px;
+  letter-spacing: .1px;
 }
 
 .specimen-name {
-  margin-top: 21px;
+  margin-top: 20px;
   font-size: 15px;
   font-weight: 800;
-  letter-spacing: .2px;
+  letter-spacing: .1px;
   text-align: center;
 }
 
 .specimen-data {
-  margin-top: 8px;
+  margin-top: 7px;
   color: #66766d;
   font-size: 8px;
   line-height: 1.8;
@@ -415,7 +434,7 @@ textarea:focus-visible {
   gap: 1px;
   padding: 4px;
   border: 1px solid #eff1ed;
-  background: white;
+  background: #fff;
 }
 
 .fake-qr i {
@@ -429,13 +448,13 @@ textarea:focus-visible {
 .art-label {
   position: absolute;
   right: 1%;
-  bottom: 15px;
+  bottom: 8px;
   display: flex;
   align-items: center;
   gap: 8px;
   color: #7c8a7d;
   font-size: 9px;
-  letter-spacing: 1px;
+  letter-spacing: .7px;
 }
 
 .art-label::before {
@@ -447,9 +466,7 @@ textarea:focus-visible {
   box-shadow: 0 0 0 4px #e4f0e4;
 }
 
-/* --------------------------------
-   SECTION TRANSITION
--------------------------------- */
+/* SECTION */
 
 .section-divider {
   width: 82%;
@@ -459,12 +476,12 @@ textarea:focus-visible {
 }
 
 .builder-section {
-  padding: 72px 7% 88px;
+  padding: 65px 7% 75px;
 }
 
 .section-intro {
   max-width: 1100px;
-  margin: 0 auto 35px;
+  margin: 0 auto 32px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -472,10 +489,10 @@ textarea:focus-visible {
 }
 
 .section-intro h2 {
-  margin: 11px 0 0;
+  margin: 10px 0 0;
   font-size: clamp(27px, 3vw, 36px);
   font-weight: 750;
-  letter-spacing: -1.5px;
+  letter-spacing: -1.4px;
 }
 
 .section-intro p {
@@ -491,7 +508,7 @@ textarea:focus-visible {
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  gap: 57px;
+  gap: 48px;
   align-items: start;
 }
 
@@ -505,7 +522,7 @@ textarea:focus-visible {
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  padding-bottom: 17px;
+  padding-bottom: 15px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -518,23 +535,24 @@ textarea:focus-visible {
 .step-label {
   color: #8a938c;
   font-size: 10px;
-  letter-spacing: .8px;
+  letter-spacing: .7px;
 }
 
 .editor-desc {
-  margin: 14px 0 23px;
+  margin: 13px 0 21px;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.8;
 }
 
 .field {
-  margin-bottom: 19px;
+  min-width: 0;
+  margin-bottom: 17px;
 }
 
 .field label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
   color: #45554b;
   font-size: 12px;
   font-weight: 750;
@@ -544,23 +562,20 @@ textarea:focus-visible {
 .field textarea {
   display: block;
   width: 100%;
-  min-height: 43px;
-  padding: 11px 12px;
+  min-height: 42px;
+  padding: 10px 12px;
   border: 1px solid #dfe5dc;
   border-radius: 4px;
   background: #fff;
   color: var(--ink);
   outline: none;
-  transition:
-    border-color .2s,
-    box-shadow .2s,
-    background .2s;
+  transition: border-color .2s, box-shadow .2s;
 }
 
 .field input:focus,
 .field textarea:focus {
   border-color: #67a87b;
-  box-shadow: 0 0 0 3px rgba(39,134,83,.08);
+  box-shadow: 0 0 0 3px rgba(39, 134, 83, .08);
 }
 
 .field input::placeholder,
@@ -569,7 +584,7 @@ textarea:focus-visible {
 }
 
 .field textarea {
-  min-height: 81px;
+  min-height: 76px;
   resize: vertical;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -578,7 +593,7 @@ textarea:focus-visible {
 .two-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 13px;
+  gap: 12px;
 }
 
 .field-help {
@@ -593,25 +608,24 @@ textarea:focus-visible {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 9px;
-  margin-top: 9px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .button.small {
-  min-height: 38px;
-  padding: 0 12px;
+  min-height: 37px;
+  padding: 0 11px;
   font-size: 11px;
 }
 
 .button svg {
   width: 14px;
   height: 14px;
-  flex: 0 0 auto;
 }
 
 .camera-area {
   display: none;
-  margin-top: 15px;
+  margin-top: 14px;
   padding: 12px;
   border: 1px solid var(--line);
   background: #fff;
@@ -644,7 +658,7 @@ textarea:focus-visible {
 
 .status {
   min-height: 19px;
-  margin-top: 12px;
+  margin-top: 11px;
   color: var(--green-dark);
   font-size: 11px;
   line-height: 1.7;
@@ -658,28 +672,25 @@ textarea:focus-visible {
 .editor-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 17px;
+  gap: 8px;
+  margin-top: 15px;
 }
 
 .privacy-note {
-  margin-top: 18px;
+  margin-top: 16px;
   color: #8a938b;
   font-size: 10px;
   line-height: 1.8;
 }
 
-/* --------------------------------
-   KARTU FINAL
-   Ukuran dipatok agar hasil PNG konsisten
--------------------------------- */
+/* PREVIEW STAGE */
 
 .preview-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 17px;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .preview-top h3 {
@@ -694,12 +705,13 @@ textarea:focus-visible {
   gap: 7px;
   color: #78867a;
   font-size: 9px;
-  letter-spacing: .7px;
+  letter-spacing: .6px;
 }
 
 .live-dot {
   width: 6px;
   height: 6px;
+  flex: 0 0 auto;
   border-radius: 50%;
   background: #4eaa6b;
   box-shadow: 0 0 0 3px #e0f0e3;
@@ -707,11 +719,12 @@ textarea:focus-visible {
 }
 
 .preview-stage {
-  min-height: 420px;
-  padding: 28px 16px;
+  min-width: 0;
+  min-height: 0;
+  padding: 22px 14px;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
+  align-items: flex-start;
   overflow: hidden;
   background:
     linear-gradient(#e9eee7 1px, transparent 1px),
@@ -720,91 +733,126 @@ textarea:focus-visible {
   background-color: #f0f3ed;
   border: 1px solid #e4e9e0;
 }
-/* FIX MOBILE: kartu proporsional seperti kartu fisik */
+
+/*
+  KARTU FISIK
+  Rasio 0.64 = lebar 64% dari tinggi.
+  Ukuran preview maksimum 300 × 469 px.
+*/
+
 .student-card {
-  width: min(360px, 100%);
+  width: min(300px, 100%);
   aspect-ratio: 0.64;
   height: auto;
-  padding: 24px 20px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: flex-start;
+  padding: 26px 22px;
+  overflow: hidden;
+  border: 1px solid #e1e5df;
+  background: #fff;
+  color: #263a35;
 }
 
-/* Header sekolah rata tengah */
+/* Header sekolah: logo di kiri, tulisan di kanan */
+
 .school-header {
-  justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
+  gap: 9px;
   text-align: left;
 }
 
+.school-logo {
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  object-fit: contain;
+}
+
+.school-identity {
+  min-width: 0;
+}
+
+.school-name {
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.school-subtitle {
+  margin-top: 2px;
+  color: var(--green);
+  font-size: 7px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
 /* Identitas siswa */
+
 .student-name {
-  margin-top: 24px;
-  max-width: 100%;
+  width: 100%;
+  margin-top: 29px;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.35;
   text-align: center;
 }
 
 .student-numbers {
   margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.8;
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
-/* QR tidak menggunakan sisa tinggi kartu */
+/* QR dekat identitas, bukan menempel di bawah */
+
 .qr-area {
-  margin-top: 30px;
+  width: 100%;
+  margin-top: 29px;
   padding: 0;
-  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
 }
 
 .qr-image,
 .qr-placeholder {
-  width: 145px;
-  max-width: 68%;
+  display: block;
+  width: 136px;
+  max-width: 75%;
   aspect-ratio: 1;
   height: auto;
+  object-fit: contain;
 }
 
-/* HP */
-@media (max-width: 680px) {
-  .preview-stage {
-    min-height: 0;
-    padding: 20px 12px;
-    align-items: flex-start;
-  }
+.qr-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d9ded8;
+  background: #fff;
+  color: #929a92;
+  font-size: 10px;
+}
 
-  .student-card {
-    width: min(360px, 100%);
-    padding: 24px 20px;
-  }
-
-  .school-header {
-    justify-content: center;
-  }
-
-  .school-name {
-    font-size: 10px;
-  }
-
-  .school-subtitle {
-    font-size: 7px;
-  }
-
-  .student-name {
-    margin-top: 24px;
-    font-size: 18px;
-  }
-
-  .student-numbers {
-    font-size: 10px;
-  }
-
-  .qr-area {
-    margin-top: 30px;
-  }
+.qr-image[hidden],
+.qr-placeholder[hidden] {
+  display: none !important;
 }
 
 .preview-note {
-  margin-top: 13px;
+  margin-top: 12px;
   color: #838d83;
   font-size: 10px;
   line-height: 1.8;
@@ -814,19 +862,17 @@ textarea:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 13px;
+  margin-top: 12px;
 }
 
-/* --------------------------------
-   FOOTER
--------------------------------- */
+/* FOOTER */
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 23px 7%;
+  padding: 21px 7%;
   border-top: 1px solid var(--line);
   color: #818b82;
   font-size: 10px;
@@ -838,14 +884,12 @@ textarea:focus-visible {
   font-weight: 700;
 }
 
-/* --------------------------------
-   MOTION
--------------------------------- */
+/* MOTION */
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(19px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -858,7 +902,7 @@ textarea:focus-visible {
     transform: translateY(0) rotate(-1deg);
   }
   50% {
-    transform: translateY(-9px) rotate(.5deg);
+    transform: translateY(-7px) rotate(.5deg);
   }
 }
 
@@ -868,22 +912,24 @@ textarea:focus-visible {
     opacity: .8;
   }
   50% {
-    transform: scale(1.045);
+    transform: scale(1.04);
     opacity: 1;
   }
 }
 
 @keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 0 3px #e0f0e3; }
-  50% { box-shadow: 0 0 0 5px #e0f0e3; }
+  0%, 100% {
+    box-shadow: 0 0 0 3px #e0f0e3;
+  }
+  50% {
+    box-shadow: 0 0 0 5px #e0f0e3;
+  }
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(19px);
-  transition:
-    opacity .7s var(--ease),
-    transform .7s var(--ease);
+  transform: translateY(16px);
+  transition: opacity .65s var(--ease), transform .65s var(--ease);
 }
 
 .reveal.visible {
@@ -891,63 +937,110 @@ textarea:focus-visible {
   transform: translateY(0);
 }
 
+/* TABLET */
+
 @media (max-width: 850px) {
   .topbar {
-    padding: 0 5%;
+    padding-right: 5%;
+    padding-left: 5%;
   }
 
   .hero {
-    min-height: 460px;
-    padding: 65px 6%;
+    min-height: 440px;
+    padding: 58px 6%;
     gap: 25px;
   }
 
   .hero h1 {
-    letter-spacing: -2.5px;
+    letter-spacing: -2.3px;
   }
 
   .hero-art {
-    transform: scale(.9);
+    transform: scale(.92);
   }
 
   .workspace {
-    gap: 32px;
+    gap: 28px;
   }
 
   .student-card {
-    padding-right: 19px;
-    padding-left: 19px;
+    width: min(280px, 100%);
+    padding: 24px 19px;
   }
 
   .school-name {
-    font-size: 9.5px;
+    font-size: 9px;
   }
 
   .school-subtitle {
-    font-size: 6.8px;
+    font-size: 6.5px;
+  }
+
+  .qr-image,
+  .qr-placeholder {
+    width: 128px;
   }
 }
 
+/* MOBILE */
+
 @media (max-width: 680px) {
   .topbar {
-    height: 65px;
+    min-height: 62px;
+    padding: 10px 5%;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand > img.specimen-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-name {
+    font-size: 11px;
+  }
+
+  .brand-caption {
+    font-size: 9px;
   }
 
   .creator {
     display: none;
   }
 
+  .nav-right {
+    gap: 10px;
+  }
+
+  .nav-link {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .nav-link svg {
+    width: 15px;
+    height: 15px;
+  }
+
   .hero {
-    min-height: initial;
-    padding: 62px 7% 36px;
-    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 48px 6% 30px;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
 
   .hero h1 {
     max-width: 480px;
-    font-size: clamp(40px, 10vw, 55px);
-    letter-spacing: -2.5px;
+    margin-top: 19px;
+    font-size: clamp(37px, 10vw, 51px);
+    letter-spacing: -2.4px;
+  }
+
+  .hero h1 b {
+    letter-spacing: -1.2px;
   }
 
   .hero-description {
@@ -955,33 +1048,53 @@ textarea:focus-visible {
     font-size: 13px;
   }
 
+  .hero-actions {
+    gap: 10px;
+    margin-top: 23px;
+  }
+
+  .button {
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
+
+  .hero-footnote {
+    margin-top: 17px;
+  }
+
   .hero-art {
-    min-height: 300px;
+    min-height: 270px;
     margin-top: 8px;
     transform: none;
   }
 
   .art-circle {
-    width: 255px;
+    width: 230px;
   }
 
   .art-line {
-    width: 300px;
+    width: 280px;
   }
 
   .specimen {
-    width: 218px;
+    width: 205px;
+    padding: 20px 18px;
   }
 
   .builder-section {
-    padding: 54px 6% 65px;
+    padding: 45px 5% 52px;
   }
 
   .section-intro {
     align-items: flex-start;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 28px;
+    gap: 9px;
+    margin-bottom: 25px;
+  }
+
+  .section-intro h2 {
+    font-size: 29px;
   }
 
   .section-intro p {
@@ -990,7 +1103,7 @@ textarea:focus-visible {
 
   .workspace {
     grid-template-columns: minmax(0, 1fr);
-    gap: 41px;
+    gap: 35px;
   }
 
   .preview {
@@ -998,41 +1111,98 @@ textarea:focus-visible {
   }
 
   .preview-stage {
-    padding: 22px 13px;
+    padding: 18px 12px;
   }
 
+  /*
+    Target ukuran kartu di HP:
+    lebar sekitar 230 px, tinggi sekitar 359 px.
+    Rasio dan margin tetap seperti kartu fisik.
+  */
+
   .student-card {
-    width: min(360px, 100%);
-    padding: 36px 24px 29px;
+    width: min(230px, 100%);
+    padding: 22px 17px;
+  }
+
+  .school-header {
+    gap: 7px;
+  }
+
+  .school-logo {
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
   }
 
   .school-name {
-    font-size: 10.5px;
+    font-size: 8px;
   }
 
   .school-subtitle {
-    font-size: 7.3px;
+    font-size: 5.8px;
+  }
+
+  .student-name {
+    margin-top: 24px;
+    font-size: 15px;
+  }
+
+  .student-numbers {
+    margin-top: 7px;
+    font-size: 8px;
+    line-height: 1.75;
+  }
+
+  .qr-area {
+    margin-top: 23px;
+  }
+
+  .qr-image,
+  .qr-placeholder {
+    width: 112px;
+    max-width: 76%;
+  }
+
+  .qr-placeholder {
+    font-size: 9px;
   }
 
   .footer {
-    padding: 20px 6%;
+    padding: 18px 5%;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
   }
 }
 
+/* HP KECIL */
+
 @media (max-width: 380px) {
   .brand-name {
-    font-size: 12px;
+    font-size: 10px;
+  }
+
+  .brand-caption {
+    font-size: 8px;
   }
 
   .hero {
-    padding-top: 48px;
+    padding-top: 39px;
   }
 
   .hero h1 {
-    font-size: 39px;
+    font-size: 36px;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+  }
+
+  .hero-actions .button {
+    gap: 7px;
+    padding: 0 9px;
+    font-size: 10px;
   }
 
   .two-columns {
@@ -1044,40 +1214,33 @@ textarea:focus-visible {
   }
 
   .student-card {
-    padding-right: 17px;
-    padding-left: 17px;
-  }
-
-  .school-logo {
-    width: 29px;
-    height: 29px;
-  }
-
-  .school-header {
-    gap: 7px;
+    width: min(218px, 100%);
+    padding: 21px 15px;
   }
 
   .school-name {
-    font-size: 9px;
+    font-size: 7.5px;
   }
 
   .school-subtitle {
-    font-size: 6.5px;
+    font-size: 5.5px;
   }
 
   .student-name {
-    font-size: 17px;
+    font-size: 14px;
   }
 
   .student-numbers {
-    font-size: 9.5px;
+    font-size: 7.5px;
   }
 
   .qr-image,
   .qr-placeholder {
-    width: 140px;
+    width: 105px;
   }
 }
+
+/* AKSESIBILITAS */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1094,97 +1257,8 @@ textarea:focus-visible {
     transform: none;
   }
 }
-.rocket-icon {
-  transition: transform .25s ease;
-  flex-shrink: 0;
-}
-
-.nav-link:hover .rocket-icon {
-  transform: translate(2px, -2px) rotate(-8deg);
-}
-/* FIX MOBILE: kartu proporsional seperti kartu fisik */
-.student-card {
-  width: min(360px, 100%);
-  aspect-ratio: 0.64;
-  height: auto;
-  padding: 24px 20px;
-  justify-content: flex-start;
-}
-
-/* Header sekolah rata tengah */
-.school-header {
-  justify-content: center;
-  align-items: center;
-  text-align: left;
-}
-
-/* Identitas siswa */
-.student-name {
-  margin-top: 24px;
-  max-width: 100%;
-  text-align: center;
-}
-
-.student-numbers {
-  margin-top: 8px;
-  text-align: center;
-}
-
-/* QR tidak menggunakan sisa tinggi kartu */
-.qr-area {
-  margin-top: 30px;
-  padding: 0;
-  flex: 0 0 auto;
-  justify-content: center;
-}
-
-.qr-image,
-.qr-placeholder {
-  width: 145px;
-  max-width: 68%;
-  aspect-ratio: 1;
-  height: auto;
-}
-
-/* HP */
-@media (max-width: 680px) {
-  .preview-stage {
-    min-height: 0;
-    padding: 20px 12px;
-    align-items: flex-start;
-  }
-
-  .student-card {
-    width: min(360px, 100%);
-    padding: 24px 20px;
-  }
-
-  .school-header {
-    justify-content: center;
-  }
-
-  .school-name {
-    font-size: 10px;
-  }
-
-  .school-subtitle {
-    font-size: 7px;
-  }
-
-  .student-name {
-    margin-top: 24px;
-    font-size: 18px;
-  }
-
-  .student-numbers {
-    font-size: 10px;
-  }
-
-  .qr-area {
-    margin-top: 30px;
-  }
-}
 </style>
+
 </head>
 
 <body>
